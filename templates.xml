@@ -1,3 +1,14 @@
-<odoo>
-
-</odoo>
+<template id="accuse_reclamation_template">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <div class="page">
+                <h2>Accusé de Réclamation</h2>
+                <p>Date de Réclamation : <t t-esc="doc.date_reclamation"/></p>
+                <p>Nom et Prénom : <t t-esc="doc.nom"/></p>
+                <p>Objet : <t t-esc="doc.objet"/></p>
+                <p>Description : <t t-esc="doc.description"/></p>
+                <p>Merci de conserver cet accusé pour suivre l'état de votre réclamation.</p>
+            </div>
+        </t>
+    </t>
+</template>

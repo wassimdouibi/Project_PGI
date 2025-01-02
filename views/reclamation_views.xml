@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<record id="view_reclamation_form" model="ir.ui.view">
+    <field name="model">crm.lead</field>
+    <field name="arch" type="xml">
+        <form string="Réclamation">
+            <header>
+                <button name="generate_accuse" string="Générer Accusé" type="object" class="btn-primary"/>
+            </header>
+            <!-- Reste de la vue -->
+        </form>
+    </field>
+</record>
+
+           
+            <!--  le menu principal  -->
+<menuitem id="main_reclamation_plateforme_menu" name="Plateforme Gestion des Réclamations" sequence="10"/> 
+
+  
+</odoo>

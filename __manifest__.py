@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Plateforme Intégrée de Gestion des Réclamations",
+    'name': "Plateforme intégrée de Gestion des Réclamations",
 
     'summary': """
         Amélioration du service de réclamation client pour l'entreprise AlMiyah Djazair
@@ -18,7 +18,7 @@
     'website': "http://www.G1_Equipe4.com",
 
     # Categories can be used to filter modules in modules listing
-    'category': 'Test',
+    'category': 'Reclamation',
     'version': '1.0',
 
     # any module necessary for this one to work correctly

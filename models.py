@@ -92,7 +92,7 @@ class Appel(models.Model):
     prenomAppelant = fields.Char(
         string="Prenom de l'appelant",
         required=True
-    )  # le prenom de l"appelant
+    ) # le prenom de l"appelant
     numeroAppelant = fields.Char(
         string="Numero de l'appelant",
         required=True
@@ -115,7 +115,7 @@ class Appel(models.Model):
     class CommissionDeRedressement(models.Model):
         _inherit = "crm.team"
 
-        _name = "gestion_de_reclamation.commissionDeRedressement"
+        _name = "gestion_de_reclamation.commissionDeRedressement"§
         _description = "Equipe commerciale qui gere une reclamation commerciale"
 
     # ------------------------------ Agent Clientèle ------------------------------

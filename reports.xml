@@ -1,10 +1,10 @@
 <odoo>
-    <report
+    <!-- <report
         id="action_accuse_reclamation"
         model="crm.lead"
         string="Accusé de Réclamation"
         report_type="qweb-pdf"
         name="gestion_de_reclamation.accuse_reclamation_template"
         file="gestion_de_reclamation.accuse_reclamation_template"
-    />
+    /> -->
 </odoo>

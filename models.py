@@ -2,64 +2,61 @@
 from odoo import models, fields, api
 
 
-#  Reclamation / Equipe / Appel / Reclamant / Agent clientele(nom + reclamations)
-
 # ------------------------------ Réclamation ------------------------------
 class Reclamation(models.Model):
     # Hérite de crm.lead
     _inherit = "crm.lead"
-    # Meta-données
-    _name = "gestion_de_reclamation.Reclamation"
-    _description = "La liste des Réclamations"  # Description spécifique pour les réclamations
 
-    # Champs
-    date_reclamation = fields.Date(string="Date de Réclamation", required=True)  # date de creation de la reclamation
+    # Champs 
     objet = fields.Char(string="Objet de la Réclamation", required=True)  #
-    description = fields.Text(string="Description")
-
     # Catégorisation des réclamations
     type_reclamation = fields.Selection(
-        [("technique", "Technique"), ("commerciale", "Commerciale")],
+        [
+            ("technique", "Technique"),
+            ("commerciale", "Commerciale")
+        ],
         string="Type de Réclamation",
         required=True
     )
-
     # Origine de la réclamation
     origine_reclamation = fields.Selection(
-        [("citoyen", "Citoyen"), ("entreprise", "Entreprise"), ("cellule_veille", "Cellule de Veille")],
+        [
+            ("citoyen", "Citoyen"), 
+            ("entreprise", "Entreprise"), 
+            ("cellule_veille", "Cellule de Veille")
+        ],
         string="Origine de la Réclamation",
         required=True
     )
-
+ 
     # Informations sur le reclamant
     # Champs many2one vers reclamant 
     # Champs many2one vers agentClientele(id user)
 
     # champs many2one vers equipe technique
     equipe_technique_id = fields.Many2one(
-        "gestion_de_reclamation.equipe_technique",
+        "crm.team",
         string="Equipe Technique",
         required=True,
-        ondelete="restrict")
-
+        ondelete="restrict"
+    )
     equipe_commercial_id = fields.Many2one(
-        "gestion_de_reclamation.equipe_commercial",
+        "crm.team",
         string="Equipe Commerciale",
         required=True,
-        ondelete="restrict")
-
+        ondelete="restrict"
+    )
     # Traitement
     urgente = fields.Boolean(string="Est Urgente ?", default=False)
-
     etat = fields.Selection(
         [("nouveau", "Nouveau"), ("en_cours", "En Cours"), ("resolu", "Résolu"), ("archive", "Archivé")],
         string="État",
         default="nouveau"
     )
 
-    def generate_accuse(self):
-        """Action pour générer un accusé de réclamation en PDF"""
-        return self.env.ref("gestion_de_reclamation.action_accuse_reclamation").report_action(self)
+    # def generate_accuse(self):
+    #     """Action pour générer un accusé de réclamation en PDF"""
+    #     return self.env.ref("gestion_de_reclamation.action_accuse_reclamation").report_action(self)
 
 
 # ------------------------------ Appel ------------------------------
@@ -108,17 +105,17 @@ class Appel(models.Model):
     class EquipeTechnique(models.Model):
         _inherit = "crm.team"
 
-        _name = "gestion_de_reclamation.equipe_technique"
-        _description = "Equipe technique qui gere une reclamation technique"
 
     # ------------------------------ Commission de redressement ------------------------------
     class CommissionDeRedressement(models.Model):
         _inherit = "crm.team"
 
-        _name = "gestion_de_reclamation.commissionDeRedressement"§
-        _description = "Equipe commerciale qui gere une reclamation commerciale"
-
     # ------------------------------ Agent Clientèle ------------------------------
     class AgentClientele(models.Model):
         _name = "gestion_de_reclamation.agent_clientele"
         _description = "Agent clientèle en charge de la préoccupation des besoins de réclamation"
+        #Champs
+        label = fields.Char(
+            string="IdAgentClientele",
+            required=True
+        )

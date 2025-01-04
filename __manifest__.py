@@ -39,17 +39,14 @@
         # Access Rights
         'security/security.xml',
         'security/ir.model.access.csv',
-
-        'templates.xml',
-        'data/report_reclamation.xml',
+        # 'templates.xml',
+        # 'data/report_reclamation.xml',
     ],
- 
 
- 
-    'views': [
-        'views/reclamation_views.xml',
-        'views/accuse_reclamation_template.xml',
-    ],
+    # 'views': [
+    #   'views/reclamation_views.xml',
+    #     'views/accuse_reclamation_template.xml',
+    # ],
     
     # only loaded in demonstration mode
     'demo': [

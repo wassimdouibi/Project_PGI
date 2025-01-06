@@ -2,35 +2,84 @@
 <odoo>
     <!-- Vues de reclamations -->
     <record model="ir.ui.view" id="reclamation_form_view">
-        <field name="name">view.reclamation</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="name">reclamation.form</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
         <field name="arch" type="xml">
-            <form string="Reclamation">
-                    <group>
-                        <field name="type_reclamation"/>
-                    </group>
+            <form string="Reclamation Form">
+                    <sheet>
+                        <group>
+                            <group string="General">
+                                <field name="objet"/>
+                                <field name="description"/>
+                            </group>
+                            <group string="Reclamation">
+                                <field name="date_creation"/>
+                                <field name="type_reclamation"/>
+                                <field name="origine_reclamation"/>
+                                <field name="urgente"/>
+                                <field name="etat"/>
+
+                            </group>
+                        </group>
+                    </sheet>
                 <!-- Reste de la vue -->
             </form>
         </field>
     </record>
 
     <record model="ir.ui.view" id="reclamation_tree_view">
-        <field name="name">view.reclamation</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="name">reclamation.tree</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
         <field name="arch" type="xml">
-            <form string="Reclamation">
-                    <group>
-                        <field name="type_reclamation"/>
-                    </group>
-                <!-- Reste de la vue -->
-            </form>
+            <tree string="Reclamation Tree">
+                    <field name="objet"/>
+                    <field name="date_creation"/>
+                    <field name="etat"/>
+                </tree>
         </field>
     </record>
 
+    <record model="ir.ui.view" id="reclamation_search_view">
+            <field name="name">reclamation.search</field>
+            <field name="model">gestion_de_reclamation.reclamation</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="objet"/>
+                    <field name="date_creation"/>
+                </search>
+            </field>
+        </record>
 
-    <!--  le menu principal  -->
-    <menuitem id="main_reclamation_plateforme_menu" name="Plateforme Gestion des Réclamations" sequence="10"/> 
+     <record model="ir.actions.act_window" id="reclamation_list_action">
+            <field name="name">reclamations</field>
+            <field name="res_model">gestion_de_reclamation.reclamation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer la première réclamation
+                </p>
+            </field>
+    </record>
 
+    <!--  le menu principal -->
+    <menuitem
+            id="main_reclamation_plateforme_menu"
+            name="Plateforme Gestion des Réclamations"
+    />
+    <menuitem
+            id="gestion_des_reclamation_menu"
+            name="Gestion des Réclamations"
+            parent="main_reclamation_plateforme_menu"
+            action="reclamation_list_action"
+    />
+    <menuitem
+            id="gestion_des_equipes_menu"
+              name="Gestion des Équipes"
+              parent="main_reclamation_plateforme_menu"
+    />
+    <menuitem
+            id="dashboard_menu"
+            name="Dashboard"
+            parent="main_reclamation_plateforme_menu"
+    />
 </odoo>

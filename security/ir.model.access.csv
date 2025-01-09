@@ -1,3 +1,6 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_reclamation_user,Reclamation User Access,model_gestion_de_reclamation_reclamation,base.group_user,1,1,1,1
-access_reclamation_manager,Reclamation Manager Access,model_gestion_de_reclamation_reclamation,base.group_system,1,1,1,1
+access_equipe_designation_user,Equipe Designation User Access,model_gestion_de_reclamation_equipe_designation,base.group_user,1,1,1,1
+access_equipe_technique_user,Equipe Technique User Access,model_gestion_de_reclamation_equipe_technique,base.group_user,1,1,1,1
+access_commission_redressement_user,Commission Redressement User Access,model_gestion_de_reclamation_commission_de_redressement,base.group_user,1,1,1,1
+access_agent_clientele_user,Agent Clientele User Access,model_gestion_de_reclamation_agent_clientele,base.group_user,1,1,1,1

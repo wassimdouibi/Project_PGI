@@ -1,1 +1,3 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_reclamation_user,Reclamation User Access,model_gestion_de_reclamation_reclamation,base.group_user,1,1,1,1
+access_reclamation_manager,Reclamation Manager Access,model_gestion_de_reclamation_reclamation,base.group_system,1,1,1,1

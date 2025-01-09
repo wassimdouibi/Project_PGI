@@ -39,6 +39,7 @@
         'security/ir.model.access.csv',
         # 'templates.xml',
         # 'data/report_reclamation.xml',
+        'views/reclamation_views.xml',
     ],
 
     # 'views': [

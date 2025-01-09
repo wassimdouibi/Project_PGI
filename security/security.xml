@@ -1,3 +1,5 @@
 <odoo>
-
+    <record id="group_manager" model="res.groups">
+        <field name="name">Reclamation / Manager</field>
+    </record>
 </odoo>

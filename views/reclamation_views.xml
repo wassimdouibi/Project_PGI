@@ -31,6 +31,13 @@
 
 
     <!--  le menu principal  -->
-    <menuitem id="main_reclamation_plateforme_menu" name="Plateforme Gestion des Réclamations" sequence="10"/> 
-
+    <menuitem id="main_reclamation_plateforme_menu" name="Plateforme"/> 
+        
+        <menuitem id="gestion_reclamation_menu" name="Gestion des Reclamation"
+                  parent="main_reclamation_plateforme_menu"/>
+        <!-- the following menuitem should appear *after*
+             its parent clientspec_menu and *after* its
+             action client_list_action -->
+        <menuitem id="reclamation_menu" name="Réclamation" parent="gestion_reclamation_menu"
+                  action=""/>
 </odoo>

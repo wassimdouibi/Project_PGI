@@ -1,43 +1,285 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Vues de reclamations -->
+    <!-- *******************************************************Vues de reclamations******************************************* -->
     <record model="ir.ui.view" id="reclamation_form_view">
-        <field name="name">view.reclamation</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="name">reclamation.form</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
         <field name="arch" type="xml">
-            <form string="Reclamation">
+            <form string="Reclamation Form">
+                <sheet>
                     <group>
-                        <field name="type_reclamation"/>
+                        <group string="General">
+                            <field name="objet"/>
+                            <field name="description"/>
+                        </group>
+                        <group string="Reclamation">
+                            <field name="date_creation"/>
+                            <field name="type_reclamation"/>
+                            <field name="origine_reclamation"/>
+                            <field name="urgente"/>
+                            <field name="etat"/>
+                            <field name="equipe_designation_id" groups ="Project_PGI.group_manager" /> <!-- nameof the module.name of the group-->
+                        </group>
                     </group>
-                <!-- Reste de la vue -->
+                </sheet>
             </form>
         </field>
     </record>
 
     <record model="ir.ui.view" id="reclamation_tree_view">
-        <field name="name">view.reclamation</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="name">reclamation.tree</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
         <field name="arch" type="xml">
-            <form string="Reclamation">
+            <tree string="Reclamation Tree">
+                <field name="objet"/>
+                <field name="date_creation"/>
+                <field name="etat"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="reclamation_search_view">
+        <field name="name">reclamation.search</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="objet"/>
+                <field name="date_creation"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="reclamation_list_action">
+        <field name="name">reclamations</field>
+        <field name="res_model">gestion_de_reclamation.reclamation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer la première réclamation
+            </p>
+        </field>
+    </record>
+
+    <!-- ***************************************************Vue Agent Clientele************************************************************************ -->
+    
+    <!-- AgentClientele Form View -->
+    <record model="ir.ui.view" id="agent_clientele_form_view">
+        <field name="name">agent.clientele.form</field>
+        <field name="model">gestion_de_reclamation.agent_clientele</field>
+        <field name="arch" type="xml">
+            <form string="Agent Clientele Form">
+                <sheet>
                     <group>
-                        <field name="type_reclamation"/>
+                        <field name="label"/>
                     </group>
-                <!-- Reste de la vue -->
+                </sheet>
             </form>
         </field>
     </record>
 
+    <!-- AgentClientele Tree View -->
+    <record model="ir.ui.view" id="agent_clientele_tree_view">
+        <field name="name">agent.clientele.tree</field>
+        <field name="model">gestion_de_reclamation.agent_clientele</field>
+        <field name="arch" type="xml">
+            <tree string="Agent Clientele Tree">
+                <field name="label"/>
+            </tree>
+        </field>
+    </record>
 
-    <!--  le menu principal  -->
-    <menuitem id="main_reclamation_plateforme_menu" name="Plateforme"/> 
-        
-        <menuitem id="gestion_reclamation_menu" name="Gestion des Reclamation"
-                  parent="main_reclamation_plateforme_menu"/>
-        <!-- the following menuitem should appear *after*
-             its parent clientspec_menu and *after* its
-             action client_list_action -->
-        <menuitem id="reclamation_menu" name="Réclamation" parent="gestion_reclamation_menu"
-                  action=""/>
+    <!-- AgentClientele Search View -->
+    <record model="ir.ui.view" id="agent_clientele_search_view">
+        <field name="name">agent.clientele.search</field>
+        <field name="model">gestion_de_reclamation.agent_clientele</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="label"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="agent_clientele_list_action">
+        <field name="name">Agent Clientele</field>
+        <field name="res_model">gestion_de_reclamation.agent_clientele</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer le premier agent clientèle
+            </p>
+        </field>
+    </record>
+
+    <!-- ************************ Equipe Technique Views ************************ -->
+    <!-- Form View -->
+    <record model="ir.ui.view" id="equipe_technique_form_view">
+        <field name="name">equipe.technique.form</field>
+        <field name="model">gestion_de_reclamation.equipe_technique</field>
+        <field name="arch" type="xml">
+            <form string="Équipe Technique">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="nom"/>
+                        <field name="type" readonly="1" default="technique"/>
+                        </group>
+                        <group>
+                            <field name="membres_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="Réclamations Liées">
+                            <field name="reclamation_ids" widget="one2many_list"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="equipe_technique_tree_view">
+        <field name="name">equipe.technique.tree</field>
+        <field name="model">gestion_de_reclamation.equipe_technique</field>
+        <field name="arch" type="xml">
+            <tree string="Équipe Technique">
+                <field name="nom"/>
+              <!-- <field name="type"/> -->
+                <field name="membres_ids"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record model="ir.ui.view" id="equipe_technique_search_view">
+        <field name="name">equipe.technique.search</field>
+        <field name="model">gestion_de_reclamation.equipe_technique</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="nom"/>
+                <field name="membres_ids"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record model="ir.actions.act_window" id="equipe_technique_list_action">
+        <field name="name">Équipes Techniques</field>
+        <field name="res_model">gestion_de_reclamation.equipe_technique</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première Équipe Technique
+            </p>
+        </field>
+    </record>
+
+    <!-- ************************ Equipe Commerciale Views ************************ -->
+    <!-- Form View 
+    <record model="ir.ui.view" id="equipe_commerciale_form_view"> 
+        <field name="name">equipe.commerciale.form</field>
+        <field name="model">gestion_de_reclamation.equipe_commerciale</field>
+        <field name="arch" type="xml">
+            <form string="Équipe Commerciale">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="nom"/>
+                            <field name="type" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="membres_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="Réclamations Liées">
+                            <field name="reclamation_ids" widget="one2many_list" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record> -->
+
+    <!-- Tree View 
+    <record model="ir.ui.view" id="equipe_commerciale_tree_view">
+        <field name="name">equipe.commerciale.tree</field>
+        <field name="model">gestion_de_reclamation.equipe_commerciale</field>
+        <field name="arch" type="xml">
+            <tree string="Équipe Commerciale">
+                <field name="nom"/>
+                <field name="type"/>
+                <field name="membres_ids"/>
+            </tree>
+        </field>
+    </record> -->
+
+    <!-- Search View 
+    <record model="ir.ui.view" id="equipe_commerciale_search_view">
+        <field name="name">equipe.commerciale.search</field>
+        <field name="model">gestion_de_reclamation.equipe_commerciale</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="nom"/>
+                <field name="membres_ids"/>
+            </search>
+        </field>
+    </record> -->
+
+    <!-- Action 
+    <record model="ir.actions.act_window" id="equipe_commerciale_list_action">
+        <field name="name">Équipes Commerciales</field>
+        <field name="res_model">gestion_de_reclamation.equipe_commerciale</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première Équipe Commerciale
+            </p>
+        </field>
+    </record>
+ 
+ -->
+
+    <!-- ***************************************************Menues************************************************************************ -->
+
+    <!--  le menu principal -->
+    <menuitem
+            id="main_reclamation_plateforme_menu"
+            name="Plateforme Gestion des Réclamations"
+    />
+    <menuitem
+            id="gestion_des_reclamation_menu"
+            name="Gestion des Réclamations"
+            parent="main_reclamation_plateforme_menu"
+            action="reclamation_list_action"
+    />
+    <menuitem
+            id="gestion_des_equipes_menu"
+            name="Gestion des Équipes"
+            parent="main_reclamation_plateforme_menu"
+    />
+        <!--************************ Sous Menu Gestion Equipe*********************************-->                
+
+                <menuitem
+                    id="gestion_equipe_technique_menu"
+                    name="Gestion Equipe Technique"
+                    parent="gestion_des_equipes_menu"
+                    action="equipe_technique_list_action"
+                />
+                <menuitem
+                    id="gestion_equipe_commerciale_menu"
+                    name="Gestion Equipe Commerciale"
+                    parent="gestion_des_equipes_menu"
+                    action=""
+                />
+
+                <menuitem
+                        id="gestion_agent_clientele_menu"
+                        name="Gestion Agents Clientels"
+                        parent="gestion_des_equipes_menu"
+                        action="agent_clientele_list_action"
+                />
+
+        <!--************************************************************************************-->                
+
+    <menuitem
+            id="dashboard_menu"
+            name="Dashboard"
+            parent="main_reclamation_plateforme_menu"
+    />
 </odoo>

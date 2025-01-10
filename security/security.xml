@@ -1,5 +1,37 @@
 <odoo>
+    <!--  adminstrateur -->
     <record id="group_manager" model="res.groups">
-        <field name="name">Reclamation / Manager</field>
+        <field name="name">GestionDeReclamation / Manager</field>
+    </record>
+
+    <!--  responsable de l'agence -->
+    <record id="group_responsable" model="res.groups">
+        <field name="name">GestionDeReclamation / ResponsableAgence </field>
+    </record>
+
+    <!--  equipe_projet -->
+    <record id="group_equipe_technique" model="res.groups">
+        <field name="name">GestionDeReclamation / EquipeTechnique </field>
+    </record>
+    <record id="group_commission_redressement" model="res.groups">
+        <field name="name">GestionDeReclamation / CommissionRedressement </field>
+    </record>
+    <record id="group_chef_equipe_technique" model="res.groups">
+        <field name="name">GestionDeReclamation / ChefEquipeTechnique </field>
+    </record>
+    <record id="group_employee_commercial" model="res.groups">
+        <field name="name">GestionDeReclamation / EmployeeCommercial</field>
+    </record>
+    <record id="group_employee_technique" model="res.groups">
+        <field name="name">GestionDeReclamation / EmployeeTechnique</field>
+    </record>
+
+    <!--  Reclamant  -->
+    <record id="group_reclamant" model="res.groups">
+        <field name="name">GestionDeReclamation / Reclamant</field>
+    </record>
+    <!--  Agent Clientèle  -->
+    <record id="group_agent_clientele" model="res.groups">
+        <field name="name">GestionDeReclamation / AgentClientele</field>
     </record>
 </odoo>

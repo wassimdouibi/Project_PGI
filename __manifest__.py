@@ -24,8 +24,6 @@
     # any module necessary for this one to work correctly
     'depends': [
         'base',
-        # CRM Module
-        'crm',
         # Project Module
         'project',
         # Survey Module
@@ -41,6 +39,7 @@
         'security/ir.model.access.csv',
         # 'templates.xml',
         # 'data/report_reclamation.xml',
+        'views/reclamation_views.xml',
     ],
 
     # 'views': [

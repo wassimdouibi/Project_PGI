@@ -35,20 +35,20 @@ class Reclamation(models.Model):
         string="État",
         default="nouveau"
     )
-
-    # Dynamically filtered Many2one field for Équipe Désignée
     equipe_designation_id = fields.Many2one(
         comodel_name="gestion_de_reclamation.equipe_designation",
         string="Équipe Désignée",
-        domain="[('type', '=', type_reclamation)]",  # Filter based on type_reclamation
-        required=True,
-        ondelete="restrict"
-    )
+        domain="[('type', '=', type_reclamation)]", # Filter based on type_reclamation
+        required=False,
+        ondelete="restrict",
+        display_name="nom"  # Ensure it uses the 'name' field for display
 
+        )
     @api.model
     def create(self, vals):
         vals['date_creation'] = fields.Date.context_today(self)
         return super(Reclamation, self).create(vals)
+
 
 
 # ------------------------------ Equipe Désignation ------------------------------
@@ -66,29 +66,24 @@ class EquipeDesignation(models.Model):
         string="Type d'équipe",
         required=True
     )
-    reclamation_ids = fields.One2many(
-        "gestion_de_reclamation.reclamation",
-        "equipe_designation_id",
-        string="Réclamations liées"
-    )
     membres_ids = fields.Many2many(
         "res.users",
         string="Membres de l'équipe"
     )
-
-
-# ------------------------------ Equipe Technique ------------------------------
-class EquipeTechnique(EquipeDesignation):
-    _name = "gestion_de_reclamation.equipe_technique"
-    _description = "Équipe technique pour les réclamations techniques"
-    _inherit = "gestion_de_reclamation.equipe_designation"  # Inherits common fields
-
-
-
-# ------------------------------ Equipe Commerciale ------------------------------
-class EquipeCommerciale(EquipeDesignation):
-    _name = "gestion_de_reclamation.equipe_commerciale"
-    _description = "Équipe commerciale pour les réclamations commerciales"
-    _inherit = "gestion_de_reclamation.equipe_designation"  # Inherits common fields
+    reclamation_ids = fields.One2many(
+        "gestion_de_reclamation.reclamation",
+        "equipe_designation_id",
+        string="Réclamations liées",
+        domain="[('type', '=', type_reclamation)]"  # Example filter condition
+    )
 
     
+# ------------------------------ Agent Clientèle ------------------------------
+class AgentClientele(models.Model):
+    _name = "gestion_de_reclamation.agent_clientele"
+    _description = "Agent clientèle en charge de la préoccupation des besoins de réclamation"
+
+    label = fields.Char(
+        string="IdAgentClientele",
+        required=True
+    )

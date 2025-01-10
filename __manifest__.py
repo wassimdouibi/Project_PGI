@@ -42,10 +42,6 @@
         'views/reclamation_views.xml',
     ],
 
-    # 'views': [
-    #   'views/reclamation_views.xml',
-    #     'views/accuse_reclamation_template.xml',
-    # ],
     
     # only loaded in demonstration mode
     'demo': [

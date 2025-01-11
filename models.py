@@ -37,8 +37,7 @@ class Reclamation(models.Model):
         domain="[('type', '=', type_reclamation)]", # Filter based on type_reclamation
         required=False,
         ondelete="restrict",
-
-        )
+    )
     
     appel_ids = fields.One2many(
         comodel_name="gestion_de_reclamation.appel",  # Target model
@@ -146,6 +145,10 @@ class EquipeDesignation(models.Model):
         string="Nom de l'équipe",
         required=True
     )
+    chef = fields.Many2one(
+        "res.users",
+        string="Chef de l'équipe"
+    )
     type = fields.Selection(
         [("technique", "Technique"), ("commerciale", "Commerciale")],
         string="Type d'équipe",
@@ -199,55 +202,210 @@ class Appel(models.Model):
         help="The reclamation linked to this appel"
     ) 
 
-    #------------------Reclamant-------------------------
-    class Reclamant(models.Model):
-        _name = "gestion_de_reclamation.reclamant"
-        _description = "Modèle représentant un réclamant"
+#------------------Reclamant-------------------------
+class Reclamant(models.Model):
+    _name = "gestion_de_reclamation.reclamant"
+    _description = "Modèle représentant un réclamant"
 
-        # Champs du réclamant
-        nom = fields.Char(
-            string="Nom du réclamant",
-            required=True
-        )
-        prenom = fields.Char(
-            string="Prenom du réclamant",
-            required=True
-        )
-        email = fields.Char(
-            string="Email",
-            help="Email du réclamant"
-        )
-        telephone = fields.Char(
-            string="Téléphone",
-            help="Numéro de téléphone du réclamant"
-        )
-        Adresse = Commune = fields.Text(
-            string="Adresse",
-            help="Adresse du réclamant"
-        )
-        Commune = fields.Text(
-            string="Commune",
-            help="Commune du réclamant"
-        )
-        origine_reclamation = fields.Selection(
-        [("citoyen", "Citoyen"), ("entreprise", "Entreprise"), ("cellule_veille", "Cellule de Veille")],
-        string="Origine",
+    # Champs du réclamant
+    nom = fields.Char(
+        string="Nom du réclamant",
         required=True
     )
-        raison_sociale = fields.Text(
-            string="Raison Sociale",
-            help="Raison Sociale en cas entreprise "
-        )
+    prenom = fields.Char(
+        string="Prenom du réclamant",
+        required=True
+    )
+    email = fields.Char(
+        string="Email",
+        help="Email du réclamant"
+    )
+    telephone = fields.Char(
+        string="Téléphone",
+        help="Numéro de téléphone du réclamant"
+    )
+    Adresse = Commune = fields.Text(
+        string="Adresse",
+        help="Adresse du réclamant"
+    )
+    Commune = fields.Text(
+        string="Commune",
+        help="Commune du réclamant"
+    )
+    origine_reclamation = fields.Selection(
+    [("citoyen", "Citoyen"), ("entreprise", "Entreprise"), ("cellule_veille", "Cellule de Veille")],
+    string="Origine",
+    required=True
+    )
+    raison_sociale = fields.Text(
+        string="Raison Sociale",
+        help="Raison Sociale en cas entreprise "
+    )
 
-        # Relation One2many avec les réclamations
-        reclamation_ids = fields.One2many(
-            comodel_name="gestion_de_reclamation.reclamation",
-            inverse_name="reclamant_id",
-            string="Réclamations",
-            help="Liste des réclamations liées à ce réclamant"
-        )
-        
+    # Relation One2many avec les réclamations
+    reclamation_ids = fields.One2many(
+        comodel_name="gestion_de_reclamation.reclamation",
+        inverse_name="reclamant_id",
+        string="Réclamations",
+        help="Liste des réclamations liées à ce réclamant"
+    )
+    
 
-class EquipeCommerciale(models.Model):
-    _name = "gestion_de_reclamation.equipe_commerciale"
-    _description = "desc"
+
+# ------------------------------ Projet Commercial ------------------------------
+class ProjetCommercial(models.Model):
+    _name = "gestion_de_reclamation.projet_commercial"
+    _description = "Projet Commercial lié à une réclamation"
+
+    # Champs
+    reclamation_id = fields.Many2one(
+        comodel_name="gestion_de_reclamation.reclamation",
+        string="Réclamation",
+        domain="[('type_reclamation', '=', 'commerciale')]",
+        required=True,
+        ondelete="cascade",
+    )
+    pv_id = fields.One2many(
+        comodel_name="gestion_de_reclamation.pv",
+        string="Procès Verbal",
+        inverse_name="projet_commercial_id",
+    )
+    date_creation = fields.Date(
+        string="Date de création",
+        default=fields.Date.context_today,
+        readonly=True,
+    )
+    # Related fields for accessing Reclamation fields
+    reclamation_objet = fields.Char(
+        related="reclamation_id.objet", string="Objet de la Réclamation", store=True
+    )
+    reclamation_description = fields.Text(
+        related="reclamation_id.description", string="Description de la Réclamation", store=True
+    )
+    reclamation_urgente = fields.Boolean(
+        related="reclamation_id.urgente", string="Réclamation Urgente", store=True
+    )
+    reclamation_etat = fields.Selection(
+        related="reclamation_id.etat", string="État de la Réclamation", store=True
+    )
+
+    #_sql_constraints = [('unique_pv', 'unique(pv_id)', 'Un projet commercial ne peut avoir qu\'un seul procès-verbal.')]
+
+
+# ------------------------------ Projet Technique ------------------------------
+class ProjetTechnique(models.Model):
+    _name = "gestion_de_reclamation.projet_technique"
+    _description = "Projet Technique lié à une réclamation"
+
+    # Champs
+    reclamation_id = fields.Many2one(
+        comodel_name="gestion_de_reclamation.reclamation",
+        string="Réclamation",
+        domain="[('type_reclamation', '=', 'technique')]",
+        required=True,
+        ondelete="cascade",
+    )
+    deplacement_ids = fields.One2many(
+        comodel_name="gestion_de_reclamation.deplacement",
+        inverse_name="projet_technique_id",
+        string="Déplacements",
+    )
+    date_creation = fields.Date(
+        string="Date de création",
+        default=fields.Date.context_today,
+        readonly=True,
+    )
+    complexite = fields.Selection(
+        [
+            ("faible", "Faible"),
+            ("moyenne", "Moyenne"),
+            ("elevee", "Élevée"),
+        ],
+        string="Complexité",
+        required=True,
+    )
+    gravite = fields.Selection(
+        [
+            ("mineure", "Mineure"),
+            ("majeure", "Majeure"),
+            ("critique", "Critique"),
+        ],
+        string="Gravité",
+        required=True,
+    )
+    # Related fields for accessing Reclamation fields
+    reclamation_objet = fields.Char(
+        related="reclamation_id.objet", string="Objet de la Réclamation", store=True
+    )
+    reclamation_description = fields.Text(
+        related="reclamation_id.description", string="Description de la Réclamation", store=True
+    )
+    reclamation_urgente = fields.Boolean(
+        related="reclamation_id.urgente", string="Réclamation Urgente", store=True
+    )
+    reclamation_etat = fields.Selection(
+        related="reclamation_id.etat", string="État de la Réclamation", store=True
+    )
+
+    
+# ------------------------------ Procès Verbal ------------------------------
+class PV(models.Model):
+    _name = "gestion_de_reclamation.pv"
+    _description = "Procès Verbal pour un projet commercial"
+
+    # Champs
+    projet_commercial_id = fields.Many2one(
+        comodel_name="gestion_de_reclamation.projet_commercial",
+        string="Projet Commercial",
+        required=True,
+        ondelete="cascade",
+    )
+    date_pv = fields.Date(
+        string="Date du Procès-Verbal",
+        default=fields.Date.context_today,
+        required=True,
+    )
+    objet = fields.Text(
+        string="Objet du PV",
+        required=True,
+    )
+    contenu = fields.Text(
+        string="Contenu du PV",
+        required=True,
+    )
+
+
+
+# ------------------------------ Déplacement ------------------------------
+class Deplacement(models.Model):
+    _name = "gestion_de_reclamation.deplacement"
+    _description = "Modèle pour enregistrer les déplacements de l'équipe technique"
+
+    # Champs
+    projet_technique_id = fields.Many2one(
+        comodel_name="gestion_de_reclamation.projet_technique",  # Lien avec le projet technique
+        string="Projet Technique",
+        required=True,
+        ondelete="cascade",
+    )
+    date_deplacement = fields.Date(
+        string="Date du Déplacement",
+        required=True,
+        default=fields.Date.context_today,
+    )
+    lieu_deplacement = fields.Char(
+        string="Lieu du Déplacement",
+        required=True,
+    )
+    actions_realisees = fields.Text(
+        string="Actions réalisées",
+        required=True,
+        help="Détail des actions effectuées durant ce déplacement"
+    )
+    commentaires = fields.Text(
+        string="Commentaires",
+        help="Commentaires supplémentaires ou observations concernant le déplacement"
+    )
+
+    
+

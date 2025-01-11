@@ -1,16 +1,68 @@
 <odoo>
-    <!-- <template id="accuse_reclamation_template">
-        <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="doc">
-                <div class="page">
-                    <h2>Accusé de Réclamation</h2>
-                    <p>Date de Réclamation : <t t-esc="doc.date_reclamation"/></p>
-                    <p>Nom et Prénom : <t t-esc="doc.nom"/></p>
-                    <p>Objet : <t t-esc="doc.objet"/></p>
-                    <p>Description : <t t-esc="doc.description"/></p>
-                    <p>Merci de conserver cet accusé pour suivre l'état de votre réclamation.</p>
+    <template id="report_accuse_reception">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page" style="font-family: Poppins, sans-serif; margin: 10px; text-align: left;">
+
+                    <!-- En-tête -->
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h2 style="color: green; border-bottom: 2px solid green; padding-bottom: 30px;">
+                            Accusé de Réception de La Réclamation
+                        </h2>
+                    </div>
+
+                    <!-- Informations de la Réclamation -->
+                    <div style="padding-left: 20px;">
+                        <h3 style="font-style: italic; color:rgb(223, 85, 50); margin-bottom: 10px;">
+                            Informations de la Réclamation :
+                        </h3>
+                        <p style="text-indent: 10px;"><strong>Objet De La Reclamation :</strong></p>
+                        <p style="text-indent: 20px;"><t t-esc="o.objet" /></p>
+                        <p style="text-indent: 10px;"><strong>Description :</strong></p>
+                        <p style="text-indent: 20px;"> <t t-esc="o.description" /></p>
+                        <div style="padding: 10px 0;">
+                            <div style="display: inline-block; width: 48%; vertical-align: top; padding-right: 10px; box-sizing: border-box;">
+                                <p><strong>Date de création :</strong> <t t-esc="o.date_creation" /></p>
+                                <p><strong>Urgente :</strong> <t t-esc="o.urgente and 'Oui' or 'Non'" /></p>
+                            </div>
+                            <div style="display: inline-block; width: 48%; vertical-align: top; padding-left: 10px; box-sizing: border-box;">
+                                <p><strong>Type :</strong> <t t-esc="o.type_reclamation" /></p>
+                                <p><strong>État :</strong> <t t-esc="o.etat" /></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Séparation -->
+                    <div style="margin: 20px 0; border-top: 2px dashed gray;"></div>
+
+                    <!-- Informations sur le Réclamant -->
+                    <div style="padding-left: 20px; margin-top: 20px">
+                        <h3 style="font-style: italic; color:rgb(223, 85, 50); margin-bottom: 10px;">
+                            Informations sur le Réclamant :
+                        </h3>
+                        <div style="padding: 10px 0;">
+                            <div style="display: inline-block; width: 48%; vertical-align: top; padding-right: 10px; box-sizing: border-box;">
+                                <p><strong>Nom :</strong><t t-esc="o.reclamant_id.nom" /></p>
+                                <p><strong>Email :</strong><t t-esc="o.reclamant_id.email" /></p>
+                                <p><strong>Adresse :</strong><t t-esc="o.reclamant_id.Adresse" /></p>
+                                <p><strong>Commune :</strong><t t-esc="o.reclamant_id.Commune" /></p>
+                            </div>
+                            <div style="display: inline-block; width: 48%; vertical-align: top; padding-left: 10px; box-sizing: border-box;">
+                                <p><strong>Prénom :</strong><t t-esc="o.reclamant_id.prenom" /></p>
+                                <p><strong>Téléphone :</strong><t t-esc="o.reclamant_id.telephone" /></p>
+                                <p><strong>Origine de la Réclamation :</strong> <t t-esc="dict(o.reclamant_id._fields['origine_reclamation'].selection).get(o.reclamant_id.origine_reclamation)" /></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pied de page -->
+                    <div style="margin-top: 50px; text-align: center;">
+                        <p style="font-size: 20px; color: #555;">
+                            Ce document a été généré automatiquement par le système de gestion des réclamations.
+                        </p>
+                    </div>
                 </div>
             </t>
         </t>
-    </template> -->
+    </template>
 </odoo>

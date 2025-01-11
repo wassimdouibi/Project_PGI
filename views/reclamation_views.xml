@@ -4,40 +4,47 @@
     <!-- ******************************************************* Vues de Reclamation ******************************************* -->
    
     <record model="ir.ui.view" id="reclamation_form_view">
-        <field name="name">reclamation.form</field>
-        <field name="model">gestion_de_reclamation.reclamation</field>
-        <field name="arch" type="xml">
-            <form string="Reclamation Form">
-                <sheet>
-                    <group>
-                        <group string="General">
-                            <field name="objet"/>
-                            <field name="description"/>
-                        </group>
-                        <group string="Reclamation">
-                            <field name="date_creation"/>
-                            <field name="type_reclamation"/>
-                            <field name="origine_reclamation"/>
-                            <field name="urgente"/>
-                            <field name="etat"/>
-                            <field name="equipe_designation_id"  /> <!-- nameof the module.name of the group groups ="Project_PGI.group_manager"-->
-                        </group>
+    <field name="name">reclamation.form</field>
+    <field name="model">gestion_de_reclamation.reclamation</field>
+    <field name="arch" type="xml">
+        <form string="Reclamation Form">
+            <header>
+               <button name="print_accuse_reception" type="object" string="Imprimer Accusé de Réception" class="btn-primary"/>  
+            </header>
+            <sheet>
+                <group>
+                    <group string="Général">
+                        <field name="objet"/>
+                        <field name="description"/>
+                        <field name="appel_ids"/> 
+                        <field name="reclamant_id"  placeholder="Sélectionner un réclamant"/>
                     </group>
-                </sheet>
-            </form>
-        </field>
+                    <group string="Réclamation">
+                        <field name="date_creation"/>
+                        <field name="type_reclamation"/>
+                        <field name="urgente"/>
+                        <field name="etat"/>
+                        <field name="equipe_designation_id"/>
+                        <field name="agent_id"  />
+                        <field name="agence_id" readonly="1"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
     </record>
 
     <record model="ir.ui.view" id="reclamation_tree_view">
-        <field name="name">reclamation.tree</field>
-        <field name="model">gestion_de_reclamation.reclamation</field>
-        <field name="arch" type="xml">
-            <tree string="Reclamation Tree">
-                <field name="objet"/>
-                <field name="date_creation"/>
-                <field name="etat"/>
-            </tree>
-        </field>
+    <field name="name">reclamation.tree</field>
+    <field name="model">gestion_de_reclamation.reclamation</field>
+    <field name="arch" type="xml">
+        <tree string="Reclamation Tree">
+            <field name="objet"/>
+            <field name="date_creation"/>
+            <field name="etat"/>
+            <field name="agent_id"/>
+        </tree>
+    </field>
     </record>
 
     <record model="ir.ui.view" id="reclamation_search_view">
@@ -62,33 +69,44 @@
         </field>
     </record>
 
+    <record id="action_report_accuse_reception" model="ir.actions.report">
+        <field name="name">Accusé de Réception</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_de_reclamation.report_accuse_reception</field>
+    </record>
+
     
     <!-- *************************************************** Vue Agent Clientele ************************************************************************ -->
     
     <!-- AgentClientele Form View -->
     <record model="ir.ui.view" id="agent_clientele_form_view">
-        <field name="name">agent.clientele.form</field>
-        <field name="model">gestion_de_reclamation.agent_clientele</field>
-        <field name="arch" type="xml">
-            <form string="Agent Clientele Form">
-                <sheet>
-                    <group>
-                        <field name="label"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
+    <field name="name">agent.clientele.form</field>
+    <field name="model">gestion_de_reclamation.agent_clientele</field>
+    <field name="arch" type="xml">
+        <form string="Agent Clientele Form">
+            <sheet>
+                <group>
+                    <field name="label"/>
+                </group>
+                <group string="Réclamations Liées">
+                    <field name="reclamation_ids" widget="one2many_list"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
     </record>
+
     <!-- AgentClientele Tree View -->
     <record model="ir.ui.view" id="agent_clientele_tree_view">
-        <field name="name">agent.clientele.tree</field>
-        <field name="model">gestion_de_reclamation.agent_clientele</field>
-        <field name="arch" type="xml">
-            <tree string="Agent Clientele Tree">
-                <field name="label"/>
-            </tree>
-        </field>
-    </record> 
+    <field name="name">agent.clientele.tree</field>
+    <field name="model">gestion_de_reclamation.agent_clientele</field>
+    <field name="arch" type="xml">
+        <tree string="Agent Clientele Tree">
+            <field name="label"/>
+        </tree>
+    </field>
+    </record>
 
     <!-- AgentClientele Search View -->
     <record model="ir.ui.view" id="agent_clientele_search_view">
@@ -177,6 +195,103 @@
         </field>
     </record>  
     
+    <!--*****************************************************Appel Vue**************************************************-->
+
+ <!-- Form View -->
+    <record id="view_appel_form" model="ir.ui.view">
+        <field name="name">appel.form</field>
+        <field name="model">gestion_de_reclamation.appel</field>
+        <field name="arch" type="xml">
+            <form string="Appel">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="notes"/>
+                        <field name="reclamation_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_appel_tree" model="ir.ui.view">
+        <field name="name">appel.tree</field>
+        <field name="model">gestion_de_reclamation.appel</field>
+        <field name="arch" type="xml">
+            <tree string="Appels">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="reclamation_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record model="ir.actions.act_window" id="action_appel" >
+        <field name="name">Appels</field>
+        <field name="res_model">gestion_de_reclamation.appel</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier appel!
+            </p>
+        </field>
+    </record>
+
+   <!-- Vue Formulaire pour Reclamant -->
+   <record model="ir.ui.view" id="reclamant_form_view">
+    <field name="name">reclamant.form</field>
+    <field name="model">gestion_de_reclamation.reclamant</field>
+    <field name="arch" type="xml">
+        <form string="Reclamant Form">
+            <sheet>
+                <group>
+                    <field name="nom"/>
+                    <field name="prenom"/>
+                    <field name="email"/>
+                    <field name="telephone"/>
+                    <field name = "Adresse"/>
+                    <field name="origine_reclamation"/>
+                    <field name = "Commune"/> 
+                    <field name = "raison_sociale" readonly="origine_reclamation in ['cellule_veille', 'citoyen']" />
+                </group>
+                <group string="Réclamations Liées">
+                    <field name="reclamation_ids" widget="one2many_list"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<!-- Vue Liste pour Reclamant -->
+<record model="ir.ui.view" id="reclamant_tree_view">
+    <field name="name">reclamant.tree</field>
+    <field name="model">gestion_de_reclamation.reclamant</field>
+    <field name="arch" type="xml">
+        <tree string="Reclamant List">
+            <field name="nom"/>
+            <field name="prenom"/>
+            <field name="email"/>
+            <field name="reclamation_ids"/>
+  
+        </tree>
+    </field>
+</record>
+
+<!-- Action pour Reclamant -->
+<record model="ir.actions.act_window" id="reclamant_list_action">
+    <field name="name">Reclamants</field>
+    <field name="res_model">gestion_de_reclamation.reclamant</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Créez votre premier reclamant
+        </p>
+    </field>
+</record>
+
 
      <!-- *************************************************** Le menu principal ************************************************************************ -->
 
@@ -190,30 +305,48 @@
             parent="main_reclamation_plateforme_menu"
             action="reclamation_list_action"
     />
-    <menuitem
-            id="gestion_des_employees_menu"
-            name="Gestion des Employees"
-            parent="main_reclamation_plateforme_menu"
-    />    
+                <menuitem id="reclamation_menu" name="Reclamations" 
+                    parent="gestion_des_reclamation_menu" 
+                    action="reclamation_list_action" 
+                  />
 
-        <menuitem
-            id="equipes_menu"
-            name="Equipes"
-            parent="gestion_des_employees_menu"
-            action="equipe_designation_list_action"
-        />
+                <menuitem id="appel_menu" name="Appels" 
+                    parent="gestion_des_reclamation_menu" 
+                    action="action_appel" 
+                  />
+                  
+                <menuitem id="reclamant_menu"  name="Reclamants" 
+                    parent="gestion_des_reclamation_menu" 
+                    action="reclamant_list_action" 
+                    />
+    
+                <menuitem
+                        id="gestion_des_employees_menu"
+                        name="Gestion des Employees"
+                        parent="main_reclamation_plateforme_menu"
+                />      
+             
+
+            <menuitem
+                    id="equipes_menu"
+                    name="Equipes"
+                    parent="gestion_des_employees_menu"
+                    action="equipe_designation_list_action"
+                />
         
-        <menuitem
-                id="agent_clientele_menu"
-                name="Agents Clienteles"
-                parent="gestion_des_employees_menu"
-                action="agent_clientele_list_action"
-        />           
+            <menuitem
+                    id="agent_clientele_menu"
+                    name="Agents Clienteles"
+                    parent="gestion_des_employees_menu"
+                    action="agent_clientele_list_action"
+            />           
 
-    <menuitem
-            id="dashboard_menu"
-            name="Dashboard"
-            parent="main_reclamation_plateforme_menu"
-    />
+            <menuitem
+                id="dashboard_menu"
+                name="Dashboard"
+                parent="main_reclamation_plateforme_menu"
+             />
+
+       
 
 </odoo>

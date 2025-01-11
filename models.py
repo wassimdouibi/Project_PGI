@@ -75,6 +75,10 @@ class Reclamation(models.Model):
             res['agence_id'] = company.company_registry
         return res
 
+    def print_accuse_reception(self):
+        """Génère un accusé de réception en PDF"""
+        return self.env.ref('gestion_de_reclamation.action_report_accuse_reception').report_action(self)
+
 
 
 

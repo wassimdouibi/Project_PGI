@@ -8,6 +8,9 @@
     <field name="model">gestion_de_reclamation.reclamation</field>
     <field name="arch" type="xml">
         <form string="Reclamation Form">
+            <header>
+               <button name="print_accuse_reception" type="object" string="Imprimer Accusé de Réception" class="btn-primary"/>  
+            </header>
             <sheet>
                 <group>
                     <group string="Général">
@@ -64,6 +67,13 @@
                 Créer la première réclamation
             </p>
         </field>
+    </record>
+
+    <record id="action_report_accuse_reception" model="ir.actions.report">
+        <field name="name">Accusé de Réception</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_de_reclamation.report_accuse_reception</field>
     </record>
 
     

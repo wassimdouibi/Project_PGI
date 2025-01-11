@@ -40,6 +40,8 @@
         # 'templates.xml',
         # 'data/report_reclamation.xml',
         'views/reclamation_views.xml',
+        'reports.xml',
+        'templates.xml',
     ],
 
     

@@ -38,7 +38,7 @@
     <field name="name">reclamation.tree</field>
     <field name="model">gestion_de_reclamation.reclamation</field>
     <field name="arch" type="xml">
-        <tree string="Reclamation Tree">
+        <tree string="Reclamation Tree" >
             <field name="objet"/>
             <field name="date_creation"/>
             <field name="etat"/>
@@ -46,6 +46,8 @@
         </tree>
     </field>
     </record>
+
+
 
     <record model="ir.ui.view" id="reclamation_search_view">
         <field name="name">reclamation.search</field>
@@ -292,6 +294,73 @@
     </field>
 </record>
 
+<!-- ******************************************************* Vues de Réclamations Archivées ******************************************* -->
+
+<!-- Form View pour la réclamation archivée -->
+<record model="ir.ui.view" id="reclamation_archive_form_view">
+    <field name="name">reclamation.archive.form</field>
+    <field name="model">gestion_de_reclamation.reclamation_archive</field>
+    <field name="arch" type="xml">
+        <form string="Réclamation Archivée">
+            <sheet>
+                <group>
+                    <group string="Général">
+                        <field name="objet"/>
+                        <field name="description"/>
+                        <field name="date_creation"/>
+                        <field name="type_reclamation"/>
+                        <field name="urgente"/>
+                    </group>
+                    <group string="Détails">
+                        <field name="equipe_designation_id"/>
+                        <field name="agent_id"/>
+                        <field name="reclamant_id"/>
+                        <field name="agence_id" readonly="1"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<!-- Tree View pour la réclamation archivée -->
+<record model="ir.ui.view" id="reclamation_archive_tree_view">
+    <field name="name">reclamation.archive.tree</field>
+    <field name="model">gestion_de_reclamation.reclamation_archive</field>
+    <field name="arch" type="xml">
+        <tree string="Réclamations Archivées">
+            <field name="objet"/>
+            <field name="date_creation"/>
+            <field name="type_reclamation"/>
+            <field name="urgente"/>
+            <field name="agent_id"/>
+        </tree>
+    </field>
+</record>
+
+<!-- Search View pour la réclamation archivée -->
+<record model="ir.ui.view" id="reclamation_archive_search_view">
+    <field name="name">reclamation.archive.search</field>
+    <field name="model">gestion_de_reclamation.reclamation_archive</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="objet"/>
+            <field name="date_creation"/>
+        </search>
+    </field>
+</record>
+
+<!-- Action pour afficher les réclamations archivées -->
+<record model="ir.actions.act_window" id="reclamation_archive_list_action">
+    <field name="name">Réclamations Archivées</field>
+    <field name="res_model">gestion_de_reclamation.reclamation_archive</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Créer la première réclamation archivée
+        </p>
+    </field>
+</record>
 
      <!-- *************************************************** Le menu principal ************************************************************************ -->
 
@@ -309,6 +378,12 @@
                     parent="gestion_des_reclamation_menu" 
                     action="reclamation_list_action" 
                   />
+
+                <menuitem id="menu_reclamation_archive"  name="Réclamations Archivées" 
+                    parent="gestion_des_reclamation_menu" 
+                    action="reclamation_archive_list_action" 
+                    sequence="10"
+                />
 
                 <menuitem id="appel_menu" name="Appels" 
                     parent="gestion_des_reclamation_menu" 
@@ -346,6 +421,10 @@
                 name="Dashboard"
                 parent="main_reclamation_plateforme_menu"
              />
+
+            
+           
+
 
        
 

@@ -65,7 +65,7 @@ class Reclamation(models.Model):
     
     agence_id = fields.Char(string="Identifiant de l'Agence", readonly=True)
     
-    
+    active = fields.Boolean(default=True) 
 
     @api.model
     def default_get(self, fields_list):
@@ -78,9 +78,62 @@ class Reclamation(models.Model):
     def print_accuse_reception(self):
         """Génère un accusé de réception en PDF"""
         return self.env.ref('gestion_de_reclamation.action_report_accuse_reception').report_action(self)
+    
+    @api.onchange('etat')
+    def _onchange_etat(self):
+        if self.etat == 'archive':
+            self.archive_reclamation()
+
+    def archive_reclamation(self):
+        # Crée un enregistrement dans le modèle 'ReclamationArchive' basé sur cette réclamation
+        reclamation_archive = self.env['gestion_de_reclamation.reclamation_archive'].create({
+            'objet': self.objet,
+            'description': self.description,
+            'date_creation': self.date_creation,
+            'type_reclamation': self.type_reclamation,
+            'urgente': self.urgente,
+            'equipe_designation_id': self.equipe_designation_id.id,
+            'agent_id': self.agent_id.id,
+            'reclamant_id': self.reclamant_id.id,
+            'agence_id': self.agence_id
+        })
+        
+        # Après la création de l'archive, mettre à jour l'état de la réclamation
+        self.write({'etat': 'archive'})
+        self.write({'active': False})
+        
 
 
 
+#--------------------------------Reclamations archivees---------------------------
+
+class ReclamationArchive(models.Model):
+    _name = "gestion_de_reclamation.reclamation_archive"
+    _description = "Réclamations Archivées"
+
+    # Champs copiés de Reclamation
+    objet = fields.Char(string="Objet de la réclamation", required=True)
+    description = fields.Text(string="Description de la réclamation")
+    date_creation = fields.Date(string="Date de création", readonly=True)
+    type_reclamation = fields.Selection(
+        [("technique", "Technique"), ("commerciale", "Commerciale")],
+        string="Type",
+        required=True
+    )
+    urgente = fields.Boolean(string="Urgente", default=False)
+    equipe_designation_id = fields.Many2one(
+        comodel_name="gestion_de_reclamation.equipe_designation",
+        string="Équipe Désignée"
+    )
+    agent_id = fields.Many2one(
+        comodel_name="gestion_de_reclamation.agent_clientele",
+        string="Agent Clientèle"
+    )
+    reclamant_id = fields.Many2one(
+        comodel_name="gestion_de_reclamation.reclamant",
+        string="Réclamant"
+    )
+    agence_id = fields.Char(string="Identifiant de l'Agence", readonly=True)
 
 # ------------------------------ Equipe Désignation ------------------------------
 

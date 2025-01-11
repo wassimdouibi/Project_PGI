@@ -82,7 +82,6 @@ class Reclamation(models.Model):
 
 
 
-
 # ------------------------------ Equipe Désignation ------------------------------
 
 class EquipeDesignation(models.Model):

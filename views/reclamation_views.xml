@@ -1,8 +1,6 @@
 
 <odoo>
-
     <!-- ******************************************************* Vues de Reclamation ******************************************* -->
-   
     <record model="ir.ui.view" id="reclamation_form_view">
     <field name="name">reclamation.form</field>
     <field name="model">gestion_de_reclamation.reclamation</field>
@@ -142,7 +140,7 @@
                         <group>
                             <field name="nom"/>
                             <field name="type" /> <!-- Type est en lecture seule -->
-                            <!--<field name="chef_equipe"/> -->
+                            <field name="chef"/>
                         </group>
                         <group>
                             <field name="membres_ids" widget="many2many_tags"/>
@@ -164,7 +162,7 @@
             <tree string="Équipes Désignées">
                 <field name="nom"/>
                 <field name="type"/>
-                <!-- <field name="chef_equipe"/> -->
+                <field name="chef"/>
                 <field name="membres_ids" widget="many2many_tags"/>
             </tree>
         </field>
@@ -178,6 +176,7 @@
             <search>
                 <field name="nom"/>
                 <field name="type" widget="selection"/>
+                <field name="chef"/>
                 <field name="membres_ids"/>
             </search>
         </field>
@@ -195,9 +194,9 @@
         </field>
     </record>  
     
-    <!--*****************************************************Appel Vue**************************************************-->
+    <!--***************************************************** Appel Vue **************************************************-->
 
- <!-- Form View -->
+    <!-- Form View -->
     <record id="view_appel_form" model="ir.ui.view">
         <field name="name">appel.form</field>
         <field name="model">gestion_de_reclamation.appel</field>
@@ -240,7 +239,8 @@
         </field>
     </record>
 
-   <!-- Vue Formulaire pour Reclamant -->
+    <!--***************************************************** Reclamant **************************************************-->
+   <!-- Vue Formulaire -->
    <record model="ir.ui.view" id="reclamant_form_view">
     <field name="name">reclamant.form</field>
     <field name="model">gestion_de_reclamation.reclamant</field>
@@ -265,32 +265,300 @@
     </field>
 </record>
 
-<!-- Vue Liste pour Reclamant -->
-<record model="ir.ui.view" id="reclamant_tree_view">
-    <field name="name">reclamant.tree</field>
-    <field name="model">gestion_de_reclamation.reclamant</field>
-    <field name="arch" type="xml">
-        <tree string="Reclamant List">
-            <field name="nom"/>
-            <field name="prenom"/>
-            <field name="email"/>
-            <field name="reclamation_ids"/>
-  
-        </tree>
-    </field>
-</record>
+    <!-- Vue Liste -->
+    <record model="ir.ui.view" id="reclamant_tree_view">
+        <field name="name">reclamant.tree</field>
+        <field name="model">gestion_de_reclamation.reclamant</field>
+        <field name="arch" type="xml">
+            <tree string="Reclamant List">
+                <field name="nom"/>
+                <field name="prenom"/>
+                <field name="email"/>
+                <field name="reclamation_ids"/>
+    
+            </tree>
+        </field>
+    </record>
 
-<!-- Action pour Reclamant -->
-<record model="ir.actions.act_window" id="reclamant_list_action">
-    <field name="name">Reclamants</field>
-    <field name="res_model">gestion_de_reclamation.reclamant</field>
-    <field name="view_mode">tree,form</field>
-    <field name="help" type="html">
-        <p class="o_view_nocontent_smiling_face">
-            Créez votre premier reclamant
-        </p>
-    </field>
-</record>
+    <!-- Action -->
+    <record model="ir.actions.act_window" id="reclamant_list_action">
+        <field name="name">Reclamants</field>
+        <field name="res_model">gestion_de_reclamation.reclamant</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier reclamant
+            </p>
+        </field>
+    </record>
+
+
+
+    <!-- ******************************************************* Vues de ProjetCommercial ******************************************* -->
+    <!-- Vue Formulaire -->
+    <record model="ir.ui.view" id="projet_commercial_form_view">
+        <field name="name">projet_commercial.form</field>
+        <field name="model">gestion_de_reclamation.projet_commercial</field>
+        <field name="arch" type="xml">
+            <form string="Projet Commercial">
+                <sheet>
+                    <group>
+                        <group string="Général">
+                            <field name="reclamation_id" string="La Réclamation"/>
+                            <field name="date_creation" string="Date de Création du Projet"/>
+                        </group>
+                        <group string="Procès-Verbal">
+                            <field name="pv_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Arbre -->
+    <record model="ir.ui.view" id="projet_commercial_tree_view">
+        <field name="name">projet_commercial.tree</field>
+        <field name="model">gestion_de_reclamation.projet_commercial</field>
+        <field name="arch" type="xml">
+            <tree string="Projet Commercial Tree">  
+                <field name="reclamation_objet" string="Objet de la Réclamation"/>
+                <field name="reclamation_description" string="Description de la Réclamation"/>
+                <field name="reclamation_urgente" string="Urgente"/>
+                <field name="reclamation_etat" string="État"/>
+                <field name="date_creation"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Recherche -->
+    <record model="ir.ui.view" id="projet_commercial_search_view">
+        <field name="name">projet_commercial.search</field>
+        <field name="model">gestion_de_reclamation.projet_commercial</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reclamation_objet" string="Objet de la Réclamation"/>
+                <field name="reclamation_urgente" string="Urgente"/>
+                <field name="reclamation_etat" string="État"/>
+                <field name="date_creation"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action de Fenêtre -->
+    <record model="ir.actions.act_window" id="projet_commercial_list_action">
+        <field name="name">Projets Commerciaux</field>
+        <field name="res_model">gestion_de_reclamation.projet_commercial</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau projet commercial
+            </p>
+        </field>
+    </record>
+
+
+    <!-- ******************************************************* Vues de ProjetTechnique ******************************************* -->
+    <!-- Vue Formulaire -->
+    <record model="ir.ui.view" id="projet_technique_form_view">
+        <field name="name">projet_technique.form</field>
+        <field name="model">gestion_de_reclamation.projet_technique</field>
+        <field name="arch" type="xml">
+            <form string="Projet Technique">
+                <sheet>
+                    <group>
+                        <group string="Général">
+                            <field name="reclamation_id" string="La Réclamation"/>
+                            <field name="date_creation" string="Date de Création du Projet"/>
+                        </group>
+                        <group string="Caractéristiques">
+                            <field name="complexite"/>
+                            <field name="gravite"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Déplacements">
+                            <field name="deplacement_ids"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Arbre -->
+    <record model="ir.ui.view" id="projet_technique_tree_view">
+        <field name="name">projet_technique.tree</field>
+        <field name="model">gestion_de_reclamation.projet_technique</field>
+        <field name="arch" type="xml">
+            <tree string="Projet Technique Tree">
+                <field name="reclamation_objet" string="Objet de la Réclamation"/>
+                <field name="reclamation_description" string="Description de la Réclamation"/>
+                <field name="reclamation_urgente" string="Urgente"/>
+                <field name="reclamation_etat" string="État"/>
+                <field name="complexite"/>
+                <field name="gravite"/>
+                <field name="date_creation"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Recherche -->
+    <record model="ir.ui.view" id="projet_technique_search_view">
+        <field name="name">projet_technique.search</field>
+        <field name="model">gestion_de_reclamation.projet_technique</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reclamation_objet" string="Objet de la Réclamation"/>
+                <field name="reclamation_description" string="Description de la Réclamation"/>
+                <field name="reclamation_urgente" string="Urgente"/>
+                <field name="reclamation_etat" string="État"/>
+                <field name="complexite"/>
+                <field name="gravite"/>
+                <field name="date_creation"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action de Fenêtre -->
+    <record model="ir.actions.act_window" id="projet_technique_list_action">
+        <field name="name">Projets Techniques</field>
+        <field name="res_model">gestion_de_reclamation.projet_technique</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau projet technique
+            </p>
+        </field>
+    </record>
+
+
+    <!-- ******************************************************* Vues de PV ******************************************* -->
+    <!-- Vue Formulaire -->
+    <record model="ir.ui.view" id="pv_form_view">
+        <field name="name">pv.form</field>
+        <field name="model">gestion_de_reclamation.pv</field>
+        <field name="arch" type="xml">
+            <form string="Procès-Verbal">
+                <sheet>
+                    <group>
+                        <group string="Détails">
+                            <field name="projet_commercial_id"/>
+                            <field name="date_pv"/>
+                            <field name="objet"/>
+                            <field name="contenu"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Arbre -->
+    <record model="ir.ui.view" id="pv_tree_view">
+        <field name="name">pv.tree</field>
+        <field name="model">gestion_de_reclamation.pv</field>
+        <field name="arch" type="xml">
+            <tree string="Procès-Verbal Tree">
+                <field name="projet_commercial_id"/>
+                <field name="date_pv"/>
+                <field name="objet"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Recherche -->
+    <record model="ir.ui.view" id="pv_search_view">
+        <field name="name">pv.search</field>
+        <field name="model">gestion_de_reclamation.pv</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="projet_commercial_id"/>
+                <field name="date_pv"/>
+                <field name="objet"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action de Fenêtre -->
+    <record model="ir.actions.act_window" id="pv_list_action">
+        <field name="name">Procès-Verbal</field>
+        <field name="res_model">gestion_de_reclamation.pv</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau procès-verbal
+            </p>
+        </field>
+    </record>
+
+
+    <!-- ******************************************************* Vues de Deplacement ******************************************* -->
+    <!-- Vue Formulaire -->
+    <record model="ir.ui.view" id="deplacement_form_view">
+        <field name="name">deplacement.form</field>
+        <field name="model">gestion_de_reclamation.deplacement</field>
+        <field name="arch" type="xml">
+            <form string="Déplacement">
+                <sheet>
+                    <group>
+                        <group string="Détails">
+                            <field name="projet_technique_id"/>
+                            <field name="date_deplacement"/>
+                            <field name="lieu_deplacement"/>
+                            <field name="actions_realisees"/>
+                            <field name="commentaires"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Arbre -->
+    <record model="ir.ui.view" id="deplacement_tree_view">
+        <field name="name">deplacement.tree</field>
+        <field name="model">gestion_de_reclamation.deplacement</field>
+        <field name="arch" type="xml">
+            <tree string="Déplacement Tree">
+                <field name="projet_technique_id"/>
+                <field name="date_deplacement"/>
+                <field name="lieu_deplacement"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Recherche -->
+    <record model="ir.ui.view" id="deplacement_search_view">
+        <field name="name">deplacement.search</field>
+        <field name="model">gestion_de_reclamation.deplacement</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="projet_technique_id"/>
+                <field name="date_deplacement"/>
+                <field name="lieu_deplacement"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action de Fenêtre -->
+    <record model="ir.actions.act_window" id="deplacement_list_action">
+        <field name="name">Déplacements</field>
+        <field name="res_model">gestion_de_reclamation.deplacement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer un nouveau déplacement
+            </p>
+        </field>
+    </record>
+
+
+
+
+
+
+
 
 
      <!-- *************************************************** Le menu principal ************************************************************************ -->
@@ -305,48 +573,72 @@
             parent="main_reclamation_plateforme_menu"
             action="reclamation_list_action"
     />
-                <menuitem id="reclamation_menu" name="Reclamations" 
-                    parent="gestion_des_reclamation_menu" 
-                    action="reclamation_list_action" 
-                  />
+        <menuitem id="reclamation_menu" name="Reclamations" 
+            parent="gestion_des_reclamation_menu" 
+            action="reclamation_list_action" 
+        />
 
-                <menuitem id="appel_menu" name="Appels" 
-                    parent="gestion_des_reclamation_menu" 
-                    action="action_appel" 
-                  />
-                  
-                <menuitem id="reclamant_menu"  name="Reclamants" 
-                    parent="gestion_des_reclamation_menu" 
-                    action="reclamant_list_action" 
-                    />
-    
-                <menuitem
-                        id="gestion_des_employees_menu"
-                        name="Gestion des Employees"
-                        parent="main_reclamation_plateforme_menu"
-                />      
-             
-
-            <menuitem
-                    id="equipes_menu"
-                    name="Equipes"
-                    parent="gestion_des_employees_menu"
-                    action="equipe_designation_list_action"
-                />
+        <menuitem id="appel_menu" name="Appels" 
+            parent="gestion_des_reclamation_menu" 
+            action="action_appel" 
+        />
         
-            <menuitem
-                    id="agent_clientele_menu"
-                    name="Agents Clienteles"
-                    parent="gestion_des_employees_menu"
-                    action="agent_clientele_list_action"
-            />           
+        <menuitem id="reclamant_menu"  name="Reclamants" 
+            parent="gestion_des_reclamation_menu" 
+            action="reclamant_list_action" 
+        />
 
-            <menuitem
-                id="dashboard_menu"
-                name="Dashboard"
-                parent="main_reclamation_plateforme_menu"
-             />
+    <!-- Create another list action for all projects or show something else -->
+    <menuitem
+            id="gestion_des_projet_menu"
+            name="Gestion des Projets"
+            parent="main_reclamation_plateforme_menu"
+            action="projet_technique_list_action"       
+    />
+        <menuitem id="projet_technique_menu" name="Projet Technique" 
+            parent="gestion_des_projet_menu" 
+            action="projet_technique_list_action" 
+        />
 
-       
+        <menuitem id="projet_commercial_menu" name="Projet Commercial" 
+            parent="gestion_des_projet_menu" 
+            action="projet_commercial_list_action" 
+        />
+        
+        <menuitem id="pv_menu"  name="Procès Verbal" 
+            parent="gestion_des_projet_menu" 
+            action="pv_list_action" 
+        />
+
+        <menuitem id="deplacement_menu"  name="Déplacement" 
+            parent="gestion_des_projet_menu" 
+            action="deplacement_list_action" 
+        />
+
+
+    <menuitem
+            id="gestion_des_employees_menu"
+            name="Gestion des Employees"
+            parent="main_reclamation_plateforme_menu"
+    />      
+        <menuitem
+                id="equipes_menu"
+                name="Equipes"
+                parent="gestion_des_employees_menu"
+                action="equipe_designation_list_action"
+            />
+    
+        <menuitem
+                id="agent_clientele_menu"
+                name="Agents Clienteles"
+                parent="gestion_des_employees_menu"
+                action="agent_clientele_list_action"
+        />           
+
+    <menuitem
+        id="dashboard_menu"
+        name="Dashboard"
+        parent="main_reclamation_plateforme_menu"
+        />
 
 </odoo>

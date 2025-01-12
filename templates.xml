@@ -13,4 +13,89 @@
             </t>
         </t>
     </template> -->
+
+    <template id="reclamation_form" name="Reclamation Form">
+    <form action="/website/submit_reclamation" method="POST">
+        <div class="row">
+            <!-- Reclamant Information -->
+            <div class="col-12 col-md-6">
+                <label for="reclamant_name">Nom</label>
+                <input type="text" id="reclamant_name" name="reclamant_name" placeholder="votre nom" required="true"/>
+            </div> 
+
+            <div class="col-12 col-md-6">
+                <label for="reclamant_prenom">Prenom</label>
+                <input type="text" id="reclamant_prenom" name="reclamant_prenom" placeholder="votre prenom" required="true"/>
+            </div> 
+
+            <div class="col-12 col-md-6">
+                <label for="reclamant_email">Email</label>
+                <input type="email" id="reclamant_email" name="reclamant_email" placeholder="Enter your email" required="true"/>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="reclamant_phone">Phone Number</label>
+                <input type="text" id="reclamant_phone" name="reclamant_phone" placeholder="Enter your phone number" required="true"/>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <label for="reclamant_adresse">Adresse</label>
+                <input type="text" id="reclamant_adresse" name="reclamant_adresse" placeholder="votre adresse" required="true"/>
+            </div> 
+
+            <div class="col-12 col-md-6">
+                <label for="reclamant_commune">Commune</label>
+                <input type="text" id="reclamant_commune" name="reclamant_commune" placeholder="votre Commune" required="true"/>
+            </div> 
+
+            <div class="col-12 col-md-6">
+                <label for="reclamant_origine">Type Reclamant</label>
+                <select id="reclamant_origine" name="reclamant_origine" required="true">
+                    <option value="citoyen">citoyen</option>
+                    <option value="entreprise">entreprise</option> 
+                    <option value="cellule_veille">cellule veille</option>
+                </select>
+            </div> 
+
+            <div class="col-12 col-md-6">
+                <label for="reclamant_resSociale">Raison Sociale</label>
+                <input type="text" id="reclamant_resSociale" name="reclamant_resSociale" placeholder="votre raison Sociale" required="false"/>
+            </div> 
+
+           
+            <!-- Reclamation Details -->
+            <div class="col-12">
+                <label for="objet">Sujet</label>
+                <input type="text" id="objet" name="objet" placeholder="Enter the subject of your reclamation" required="true"/>
+            </div>
+
+            <div class="col-12">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Describe your reclamation in detail" required="true"></textarea>
+            </div>
+
+        
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Soumettre Reclamation</button>
+            </div>
+        </div>
+
+        <div class="col-12">
+         <label for="file_attachments">Attach Files</label>
+        <input type="file" name="file_attachments" id="file_attachments" class="form-control"  />
+    </div>
+    </form>
+</template>
+
+
+<template id="success_page" name="Success Page">
+    <div class="alert alert-success">
+        <h4>Reclamation Submitted Successfully!</h4>
+        <p>Your reclamation has been submitted. You will be contacted soon.</p>
+    </div>
+</template>
+
+
 </odoo>
+

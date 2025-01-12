@@ -22,7 +22,7 @@ class Reclamation(models.Model):
     type_reclamation = fields.Selection(
         [("technique", "Technique"), ("commerciale", "Commerciale")],
         string="Type",
-        required=True
+         required=True
     )
     
     urgente = fields.Boolean(string="Urgente", default=False)
@@ -50,7 +50,7 @@ class Reclamation(models.Model):
     agent_id = fields.Many2one(
         comodel_name="gestion_de_reclamation.agent_clientele",
         string="Agent Clientèle",
-        required=True,
+       # required=True,
         ondelete="restrict",
         help="L'agent clientèle en charge de cette réclamation"
     )
@@ -64,7 +64,12 @@ class Reclamation(models.Model):
     )
     
     agence_id = fields.Char(string="Identifiant de l'Agence", readonly=True)
-    
+
+    attachment_ids = fields.Many2many(
+        comodel_name="ir.attachment",
+        string="Attachments",
+        help="Attachments related to this reclamation"
+    )
     
 
     @api.model

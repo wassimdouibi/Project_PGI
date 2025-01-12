@@ -14,8 +14,8 @@
                     <group string="Général">
                         <field name="objet"/>
                         <field name="description"/>
-                        <field name="appel_ids"/> 
                         <field name="reclamant_id"  placeholder="Sélectionner un réclamant"/>
+                        <field name="appel_ids"/> 
                     </group>
                     <group string="Réclamation">
                         <field name="date_creation"/>
@@ -89,6 +89,7 @@
             <sheet>
                 <group>
                     <field name="label"/>
+                    <field name="agent"/>
                 </group>
                 <group string="Réclamations Liées">
                     <field name="reclamation_ids" widget="one2many_list"/>
@@ -105,6 +106,7 @@
     <field name="arch" type="xml">
         <tree string="Agent Clientele Tree">
             <field name="label"/>
+            <field name="agent"/>
         </tree>
     </field>
     </record>
@@ -116,6 +118,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="label"/>
+                <field name="agent"/>
             </search>
         </field>
     </record>    
@@ -304,6 +307,9 @@
         <field name="model">gestion_de_reclamation.projet_commercial</field>
         <field name="arch" type="xml">
             <form string="Projet Commercial">
+                <header>
+                    <button name="action_imprimer_pv" type="object" string="Imprimer le PV" class="btn-primary"/>
+                </header>
                 <sheet>
                     <group>
                         <group string="Général">
@@ -358,6 +364,13 @@
                 Créer un nouveau projet commercial
             </p>
         </field>
+    </record>
+
+    <record id="action_report_pv" model="ir.actions.report">
+        <field name="name">Procès-Verbal</field>
+        <field name="model">gestion_de_reclamation.pv</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_de_reclamation.report_pv</field>
     </record>
 
 
@@ -437,12 +450,15 @@
 
 
     <!-- ******************************************************* Vues de PV ******************************************* -->
-    <!-- Vue Formulaire -->
+    <!-- Vue Formulaire  -->
     <record model="ir.ui.view" id="pv_form_view">
         <field name="name">pv.form</field>
         <field name="model">gestion_de_reclamation.pv</field>
         <field name="arch" type="xml">
             <form string="Procès-Verbal">
+                <header>
+                    <button name="action_imprimer_pv" type="object" string="Imprimer le PV" class="btn-primary"/>
+                </header>
                 <sheet>
                     <group>
                         <group string="Détails">
@@ -452,10 +468,27 @@
                             <field name="contenu"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page string="Signatures">
+                            <field name="signatures">
+                                <tree string="Signatures">
+                                    <field name="user_id" string="Utilisateur"/>
+                                    <field name="signature" string="Signé"/>
+                                </tree>
+                                <form string="Signature">
+                                    <group>
+                                        <field name="user_id" string="Utilisateur"/>
+                                        <field name="signature" string="Signé"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
-    </record>
+    </record> 
+
 
     <!-- Vue Arbre -->
     <record model="ir.ui.view" id="pv_tree_view">
@@ -680,16 +713,17 @@
             parent="gestion_des_projet_menu" 
             action="projet_commercial_list_action" 
         />
+
         
         <menuitem id="pv_menu"  name="Procès Verbal" 
             parent="gestion_des_projet_menu" 
             action="pv_list_action" 
-        />
+        /> 
 
         <menuitem id="deplacement_menu"  name="Déplacement" 
             parent="gestion_des_projet_menu" 
             action="deplacement_list_action" 
-        />
+        /> 
 
 
     <menuitem

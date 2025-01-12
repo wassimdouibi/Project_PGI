@@ -1,4 +1,3 @@
-
 <odoo>
     <!-- ******************************************************* Vues de Reclamation ******************************************* -->
     <record model="ir.ui.view" id="reclamation_form_view">
@@ -250,28 +249,28 @@
     <!--***************************************************** Reclamant **************************************************-->
    <!-- Vue Formulaire -->
    <record model="ir.ui.view" id="reclamant_form_view">
-    <field name="name">reclamant.form</field>
-    <field name="model">gestion_de_reclamation.reclamant</field>
-    <field name="arch" type="xml">
-        <form string="Reclamant Form">
-            <sheet>
-                <group>
-                    <field name="nom"/>
-                    <field name="prenom"/>
-                    <field name="email"/>
-                    <field name="telephone"/>
-                    <field name = "Adresse"/>
-                    <field name="origine_reclamation"/>
-                    <field name = "Commune"/> 
-                    <field name = "raison_sociale" readonly="origine_reclamation in ['cellule_veille', 'citoyen']" />
-                </group>
-                <group string="Réclamations Liées">
-                    <field name="reclamation_ids" widget="one2many_list"/>
-                </group>
-            </sheet>
-        </form>
-    </field>
-</record>
+        <field name="name">reclamant.form</field>
+        <field name="model">gestion_de_reclamation.reclamant</field>
+        <field name="arch" type="xml">
+            <form string="Reclamant Form">
+                <sheet>
+                    <group>
+                        <field name="nom"/>
+                        <field name="prenom"/>
+                        <field name="email"/>
+                        <field name="telephone"/>
+                        <field name = "Adresse"/>
+                        <field name="origine_reclamation"/>
+                        <field name = "Commune"/> 
+                        <field name = "raison_sociale" readonly="origine_reclamation in ['cellule_veille', 'citoyen']" />
+                    </group>
+                    <group string="Réclamations Liées">
+                        <field name="reclamation_ids" widget="one2many_list"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
     <!-- Vue Liste -->
     <record model="ir.ui.view" id="reclamant_tree_view">
@@ -368,6 +367,8 @@
         </field>
     </record>
 
+  
+
     <record id="action_report_pv" model="ir.actions.report">
         <field name="name">Procès-Verbal</field>
         <field name="model">gestion_de_reclamation.pv</field>
@@ -450,6 +451,7 @@
         </field>
     </record>
 
+   
 
     <!-- ******************************************************* Vues de PV ******************************************* -->
     <!-- Vue Formulaire  -->
@@ -598,175 +600,248 @@
 
 
 
-<!-- ******************************************************* Vues de Réclamations Archivées ******************************************* -->
+    <!-- ******************************************************* Vues de Réclamations Archivées ******************************************* -->
 
-<!-- Form View pour la réclamation archivée -->
-<record model="ir.ui.view" id="reclamation_archive_form_view">
-    <field name="name">reclamation.archive.form</field>
-    <field name="model">gestion_de_reclamation.reclamation_archive</field>
-    <field name="arch" type="xml">
-        <form string="Réclamation Archivée">
-            <sheet>
-                <group>
-                    <group string="Général">
-                        <field name="objet"/>
-                        <field name="description"/>
-                        <field name="date_creation"/>
-                        <field name="type_reclamation"/>
-                        <field name="urgente"/>
+    <!-- Form View pour la réclamation archivée -->
+    <record model="ir.ui.view" id="reclamation_archive_form_view">
+        <field name="name">reclamation.archive.form</field>
+        <field name="model">gestion_de_reclamation.reclamation_archive</field>
+        <field name="arch" type="xml">
+            <form string="Réclamation Archivée">
+                <sheet>
+                    <group>
+                        <group string="Général">
+                            <field name="objet"/>
+                            <field name="description"/>
+                            <field name="date_creation"/>
+                            <field name="type_reclamation"/>
+                            <field name="urgente"/>
+                        </group>
+                        <group string="Détails">
+                            <field name="equipe_designation_id"/>
+                            <field name="agent_id"/>
+                            <field name="reclamant_id"/>
+                            <field name="agence_id" readonly="1"/>
+                        </group>
                     </group>
-                    <group string="Détails">
-                        <field name="equipe_designation_id"/>
-                        <field name="agent_id"/>
-                        <field name="reclamant_id"/>
-                        <field name="agence_id" readonly="1"/>
-                    </group>
-                </group>
-            </sheet>
-        </form>
-    </field>
-</record>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-<!-- Tree View pour la réclamation archivée -->
-<record model="ir.ui.view" id="reclamation_archive_tree_view">
-    <field name="name">reclamation.archive.tree</field>
-    <field name="model">gestion_de_reclamation.reclamation_archive</field>
-    <field name="arch" type="xml">
-        <tree string="Réclamations Archivées">
-            <field name="objet"/>
-            <field name="date_creation"/>
-            <field name="type_reclamation"/>
-            <field name="urgente"/>
-            <field name="agent_id"/>
-        </tree>
-    </field>
-</record>
+    <!-- Tree View pour la réclamation archivée -->
+    <record model="ir.ui.view" id="reclamation_archive_tree_view">
+        <field name="name">reclamation.archive.tree</field>
+        <field name="model">gestion_de_reclamation.reclamation_archive</field>
+        <field name="arch" type="xml">
+            <tree string="Réclamations Archivées">
+                <field name="objet"/>
+                <field name="date_creation"/>
+                <field name="type_reclamation"/>
+                <field name="urgente"/>
+                <field name="agent_id"/>
+            </tree>
+        </field>
+    </record>
 
-<!-- Search View pour la réclamation archivée -->
-<record model="ir.ui.view" id="reclamation_archive_search_view">
-    <field name="name">reclamation.archive.search</field>
-    <field name="model">gestion_de_reclamation.reclamation_archive</field>
-    <field name="arch" type="xml">
-        <search>
-            <field name="objet"/>
-            <field name="date_creation"/>
-        </search>
-    </field>
-</record>
+    <!-- Search View pour la réclamation archivée -->
+    <record model="ir.ui.view" id="reclamation_archive_search_view">
+        <field name="name">reclamation.archive.search</field>
+        <field name="model">gestion_de_reclamation.reclamation_archive</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="objet"/>
+                <field name="date_creation"/>
+            </search>
+        </field>
+    </record>
 
-<!-- Action pour afficher les réclamations archivées -->
-<record model="ir.actions.act_window" id="reclamation_archive_list_action">
-    <field name="name">Réclamations Archivées</field>
-    <field name="res_model">gestion_de_reclamation.reclamation_archive</field>
-    <field name="view_mode">tree,form</field>
-    <field name="help" type="html">
-        <p class="o_view_nocontent_smiling_face">
-            Créer la première réclamation archivée
-        </p>
-    </field>
-</record>
+    <!-- Action pour afficher les réclamations archivées -->
+    <record model="ir.actions.act_window" id="reclamation_archive_list_action">
+        <field name="name">Réclamations Archivées</field>
+        <field name="res_model">gestion_de_reclamation.reclamation_archive</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer la première réclamation archivée
+            </p>
+        </field>
+    </record>
 
-     <!-- *************************************************** Le menu principal ************************************************************************ -->
+    <!-- *************************************************** Les vues des Surveys ************************************************************************ -->
+
+
+    <!-- Action pour afficher les survey -->
+    <record id="action_custom_survey" model="ir.actions.act_window">
+        <field name="name">Custom Survey</field>
+        <field name="res_model">survey.survey</field>  
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Action pour afficher les questions d'enquête -->
+    <record id="action_custom_question" model="ir.actions.act_window">
+        <field name="name">Custom Questions</field>
+        <field name="res_model">survey.question</field> 
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Action pour afficher les réponses des utilisateurs -->
+    <record id="action_custom_user_input" model="ir.actions.act_window">
+        <field name="name">Custom User Inputs</field>
+        <field name="res_model">survey.user_input</field> 
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- *************************************************** La vue du dashboard ************************************************************************ -->
+
+    <record id="action_dashboard" model="ir.actions.act_window">
+    <field name="name">Dashboard</field>
+    <field name="res_model">board.board</field>
+    <field name="view_mode">kanban,form</field>
+    </record>
+
+    <!-- *************************************************** Les menus ************************************************************************ -->
 
     <menuitem
             id="main_reclamation_plateforme_menu"
             name="Plateforme Gestion des Réclamations"
     />
+    <!--Gestion des Réclamations-->
     <menuitem
             id="gestion_des_reclamation_menu"
             name="Gestion des Réclamations"
             parent="main_reclamation_plateforme_menu"
             action="reclamation_list_action"
+            groups="gestion_de_reclamation.group_agent_clientele"
     />
         <menuitem id="reclamation_menu" name="Reclamations" 
             parent="gestion_des_reclamation_menu" 
             action="reclamation_list_action" 
+            groups="gestion_de_reclamation.group_agent_clientele"
+
         />
-  
+
         <menuitem id="menu_reclamation_archive"  name="Réclamations Archivées" 
             parent="gestion_des_reclamation_menu" 
             action="reclamation_archive_list_action" 
             sequence="10"
+            groups="gestion_de_reclamation.group_agent_clientele"
+
         />
 
         <menuitem id="appel_menu" name="Appels" 
             parent="gestion_des_reclamation_menu" 
             action="action_appel" 
+            groups="gestion_de_reclamation.group_agent_clientele"
+
         />
         
         <menuitem id="reclamant_menu"  name="Reclamants" 
             parent="gestion_des_reclamation_menu" 
             action="reclamant_list_action" 
+            groups="gestion_de_reclamation.group_agent_clientele"
+
         />
 
-    <!-- Create another list action for all projects or show something else -->
+    <!--Gestion des projets-->
     <menuitem
             id="gestion_des_projet_menu"
             name="Gestion des Projets"
             parent="main_reclamation_plateforme_menu"
-            action="projet_technique_list_action"       
+            groups="gestion_de_reclamation.group_employee"
     />
         <menuitem id="projet_technique_menu" name="Projet Technique" 
             parent="gestion_des_projet_menu" 
             action="projet_technique_list_action" 
+            groups="gestion_de_reclamation.group_employee_technique"
+
         />
 
         <menuitem id="projet_commercial_menu" name="Projet Commercial" 
             parent="gestion_des_projet_menu" 
             action="projet_commercial_list_action" 
+            groups="gestion_de_reclamation.group_employee_commercial"
+
         />
 
-        
         <menuitem id="pv_menu"  name="Procès Verbal" 
             parent="gestion_des_projet_menu" 
             action="pv_list_action" 
+            groups="gestion_de_reclamation.group_employee_commercial"
+
         /> 
 
         <menuitem id="deplacement_menu"  name="Déplacement" 
             parent="gestion_des_projet_menu" 
-            action="deplacement_list_action" 
+            action="deplacement_list_action"
+            groups="gestion_de_reclamation.group_employee_technique"
+
         /> 
 
-
+    <!--Gestion des employee-->
     <menuitem
             id="gestion_des_employees_menu"
             name="Gestion des Employees"
             parent="main_reclamation_plateforme_menu"
+            groups="gestion_de_reclamation.group_manager"
     />      
         <menuitem
                 id="equipes_menu"
                 name="Equipes"
                 parent="gestion_des_employees_menu"
                 action="equipe_designation_list_action"
+                groups="gestion_de_reclamation.group_manager"
+
             />
-    
+
         <menuitem
                 id="agent_clientele_menu"
                 name="Agents Clienteles"
                 parent="gestion_des_employees_menu"
                 action="agent_clientele_list_action"
-        />           
+                groups="gestion_de_reclamation.group_manager"
+        />                  
 
-            <menuitem
-                id="dashboard_menu"
+           
+    <!--Gestion des Survey-->
+    <menuitem
+        id="survey_menu"
+        name="Survey"
+        action="action_custom_survey" 
+        parent="main_reclamation_plateforme_menu"
+        groups="gestion_de_reclamation.group_agent_clientele"
+    />
+        <menuitem 
+            id="menu_custom_survey" 
+            name="Custom Survey" 
+            action="action_custom_survey" 
+            parent="survey_menu"
+            groups="gestion_de_reclamation.group_agent_clientele"
+        />
+        <menuitem 
+            id="menu_custom_question" 
+            name="Custom Questions" 
+            action="action_custom_question"
+            parent="survey_menu"
+            groups="gestion_de_reclamation.group_agent_clientele"
+        />
+        <menuitem 
+            id="menu_custom_user_input" 
+            name="Custom User Inputs" 
+            action="action_custom_user_input"
+            parent="survey_menu"
+            groups="gestion_de_reclamation.group_agent_clientele"
+        />
+
+  
+    <menuitem id="menu_dashboard"
                 name="Dashboard"
-                parent="main_reclamation_plateforme_menu"
-             />
- <record id="action_dashboard" model="ir.actions.act_window">
-        <field name="name">Dashboard</field>
-        <field name="res_model">board.board</field>
-        <field name="view_mode">form</field>
-        <field name="target">current</field>
-        <field name="context">{'default_name': 'Custom Dashboard'}</field>
-    </record>
-<menuitem id="menu_dashboard"
-              name="Dashboard"
-              parent="main_reclamation_plateforme_menu" 
-              sequence="10"
-              action="action_dashboard"/>
+                parent="main_reclamation_plateforme_menu" 
+                action="action_dashboard"
+                groups="gestion_de_reclamation.group_manager" 
+            />
 
-    <!-- Define the action for the dashboard -->
-   
+
 </odoo>
-       
+        
 

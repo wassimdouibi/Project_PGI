@@ -483,3 +483,50 @@ class Signature(models.Model):
     )
 
     
+#***************************************************SURVEY***************************************************************
+class Survey(models.Model):
+    _inherit = 'survey.survey'
+
+    
+class Question(models.Model):
+    _inherit = 'survey.question'
+
+class UserInput(models.Model):
+    _inherit = 'survey.user_input'
+
+
+
+
+
+#*************************************************** Dashboard ***************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class IrUiMenu(models.Model):
+    _inherit = 'ir.ui.menu'
+
+    @api.model
+    def get_user_action(self, menu_id):
+        # Check if it's the menu you want to control
+        if menu_id == self.env.ref('gestion_de_reclamation.gestion_des_projet_menu').id:
+            user = self.env.user
+            # Check the user's group and set the appropriate action
+            if user.has_group('gestion_de_reclamation.group_employee_commercial'):
+                return self.env.ref('gestion_de_reclamation.projet_commercial_list_action').id
+            else:
+                return self.env.ref('gestion_de_reclamation.projet_technique_list_action').id
+        return super().get_user_action(menu_id)

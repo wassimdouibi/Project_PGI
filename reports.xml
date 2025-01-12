@@ -1,10 +1,34 @@
 <odoo>
-    <!-- <report
-        id="action_accuse_reclamation"
-        model="crm.lead"
-        string="Accusé de Réclamation"
+
+    <report
+        id="action_report_accuse_reception"
+        model="gestion_de_reclamation.reclamation"
+        string="Accusé de Réception"
         report_type="qweb-pdf"
-        name="gestion_de_reclamation.accuse_reclamation_template"
-        file="gestion_de_reclamation.accuse_reclamation_template"
-    /> -->
-</odoo>   
+        name="gestion_de_reclamation.report_accuse_reception"
+        file="gestion_de_reclamation.report_accuse_reception"
+        attachment_use="False"
+    />
+
+    <report
+        id="action_report_pv"
+        model="gestion_de_reclamation.pv"
+        string="Procès-Verbal"
+        report_type="qweb-pdf"
+        name="gestion_de_reclamation.report_pv"
+        file="gestion_de_reclamation.report_pv"
+        attachment_use="False"
+    />
+
+</odoo>
+
+    
+
+
+
+
+
+
+
+
+

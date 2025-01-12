@@ -41,8 +41,13 @@
         'security/ir.model.access.csv',
         # 'data/report_reclamation.xml',
         'views/reclamation_views.xml',
+<<<<<<< HEAD
         'templates.xml',
 
+=======
+        'reports.xml',
+        'templates.xml',
+>>>>>>> 8c1db2cb3cffaef13b93c8d7a0c10bf6addbc186
     ],
 
     

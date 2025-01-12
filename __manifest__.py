@@ -29,7 +29,9 @@
         # Survey Module
         'survey',
         # Dashboards Module
-        'board'
+        'board' ,
+        'website',  # Added website dependency for web-related functionalities
+
     ],
 
     # always loaded
@@ -37,7 +39,6 @@
         # Access Rights
         'security/security.xml',
         'security/ir.model.access.csv',
-        # 'templates.xml',
         # 'data/report_reclamation.xml',
         'views/reclamation_views.xml',
         'reports.xml',

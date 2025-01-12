@@ -14,16 +14,18 @@
                     <group string="Général">
                         <field name="objet"/>
                         <field name="description"/>
-                        <field name="reclamant_id"  placeholder="Sélectionner un réclamant"/>
+                        <field name="reclamant_id"  placeholder="Sélectionner un réclamant"/> 
+                        <field name="attachment_ids" widget="many2many_binary"/> 
+
                         <field name="appel_ids"/> 
                     </group>
                     <group string="Réclamation">
                         <field name="date_creation"/>
-                        <field name="type_reclamation"/>
-                        <field name="urgente"/>
+                        <field name="type_reclamation" groups='gestion_de_reclamation.group_manager'/>
+                        <field name="urgente" groups='gestion_de_reclamation.group_manager'/>
                         <field name="etat"/>
-                        <field name="equipe_designation_id" placeholder="Sélectionner une equipe"/>
-                        <field name="agent_id" placeholder="Sélectionner un agent clientele" />
+                        <field name="equipe_designation_id" placeholder="Sélectionner une equipe" groups='gestion_de_reclamation.group_manager'/>
+                        <field name="agent_id" placeholder="Sélectionner un agent clientele" groups = 'gestion_de_reclamation.group_agent_clientele' />
                         <field name="agence_id" readonly="1"/>
                     </group>
                 </group>
@@ -745,10 +747,26 @@
                 action="agent_clientele_list_action"
         />           
 
-    <menuitem
-        id="dashboard_menu"
-        name="Dashboard"
-        parent="main_reclamation_plateforme_menu"
-        />
+            <menuitem
+                id="dashboard_menu"
+                name="Dashboard"
+                parent="main_reclamation_plateforme_menu"
+             />
+ <record id="action_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_name': 'Custom Dashboard'}</field>
+    </record>
+<menuitem id="menu_dashboard"
+              name="Dashboard"
+              parent="main_reclamation_plateforme_menu" 
+              sequence="10"
+              action="action_dashboard"/>
 
+    <!-- Define the action for the dashboard -->
+   
 </odoo>
+       
+

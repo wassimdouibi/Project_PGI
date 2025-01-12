@@ -22,11 +22,12 @@
                         <field name="type_reclamation"/>
                         <field name="urgente"/>
                         <field name="etat"/>
-                        <field name="equipe_designation_id"/>
-                        <field name="agent_id"  />
+                        <field name="equipe_designation_id" placeholder="Sélectionner une equipe"/>
+                        <field name="agent_id" placeholder="Sélectionner un agent clientele" />
                         <field name="agence_id" readonly="1"/>
                     </group>
                 </group>
+                <field name="active" invisible="1"/>
             </sheet>
         </form>
     </field>

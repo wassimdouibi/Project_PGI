@@ -64,7 +64,7 @@ class Reclamation(models.Model):
     
     agence_id = fields.Char(string="Identifiant de l'Agence", readonly=True)
     
-    active = fields.Boolean(default=True) 
+    active = fields.Boolean(string="Active", default=True)
 
     @api.model
     def default_get(self, fields_list):
@@ -97,9 +97,8 @@ class Reclamation(models.Model):
             'agence_id': self.agence_id
         })
         
-        # Après la création de l'archive, mettre à jour l'état de la réclamation
-        self.write({'etat': 'archive'})
-        self.write({'active': False})
+        self.write({'etat': 'archive', 'active': False})
+
         
 
 

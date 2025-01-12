@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from xml.dom import ValidationErr
 from odoo  import models, fields, api
+from odoo.exceptions import UserError
 
 # ------------------------------ Réclamation ------------------------------
 class Reclamation(models.Model):
@@ -164,6 +166,7 @@ class EquipeDesignation(models.Model):
         string="Réclamations liées",
         domain="[('type_reclamation', '=', type)]"  # Example filter condition
     )
+    _sql_constraints = [('unique_user', 'unique(chef)', 'Un chef doit etre un seul utilisateur.')]
 
     
 
@@ -174,18 +177,22 @@ class AgentClientele(models.Model):
     _description = "Agent clientèle en charge de la préoccupation des besoins de réclamation"
 
     label = fields.Char(
-        string="IdAgentClientele",
+        string="Role",
         required=True
     )
-
+    agent = fields.Many2one(
+        "res.users",
+        string="Agent Clientèle"
+    )
     reclamation_ids = fields.One2many(
         comodel_name="gestion_de_reclamation.reclamation",
         inverse_name="agent_id",
         string="Réclamations",
         help="Les réclamations prises en charge par cet agent"
     )
+    _sql_constraints = [('unique_user', 'unique(agent)', 'Un agent doit etre un seul utilisateur.')]
 
-# ------------------------------ Appel ------------------------------
+# ---------------------------------------------- Appel ----------------------------------------------
 
 class Appel(models.Model):
     _name = "gestion_de_reclamation.appel"
@@ -202,7 +209,7 @@ class Appel(models.Model):
         help="The reclamation linked to this appel"
     ) 
 
-#------------------Reclamant-------------------------
+#------------------------------------ Reclamant --------------------------------------------------
 class Reclamant(models.Model):
     _name = "gestion_de_reclamation.reclamant"
     _description = "Modèle représentant un réclamant"
@@ -269,13 +276,14 @@ class ProjetCommercial(models.Model):
         comodel_name="gestion_de_reclamation.pv",
         string="Procès Verbal",
         inverse_name="projet_commercial_id",
+        ondelete="cascade",
     )
     date_creation = fields.Date(
         string="Date de création",
         default=fields.Date.context_today,
         readonly=True,
     )
-    # Related fields for accessing Reclamation fields
+    # Pour les afficher
     reclamation_objet = fields.Char(
         related="reclamation_id.objet", string="Objet de la Réclamation", store=True
     )
@@ -288,8 +296,15 @@ class ProjetCommercial(models.Model):
     reclamation_etat = fields.Selection(
         related="reclamation_id.etat", string="État de la Réclamation", store=True
     )
-
-    #_sql_constraints = [('unique_pv', 'unique(pv_id)', 'Un projet commercial ne peut avoir qu\'un seul procès-verbal.')]
+            
+    def action_imprimer_pv(self):
+        # Vérifier si un PV est lié au projet commercial
+        if self.pv_id:
+            # Générer le PDF pour le PV associé
+            return self.pv_id[0].action_imprimer_pv()  # Appel de la méthode dans le modèle PV
+        else:
+            raise UserError("Aucun procès-verbal associé à ce projet commercial.")
+    _sql_constraints = [('unique_reclamation_id', 'unique(reclamation_id)', 'Un projet commercial ne peut etre associe qu\'a une seule reclamation.')]
 
 
 # ------------------------------ Projet Technique ------------------------------
@@ -333,7 +348,7 @@ class ProjetTechnique(models.Model):
         string="Gravité",
         required=True,
     )
-    # Related fields for accessing Reclamation fields
+    # Pour les afficher
     reclamation_objet = fields.Char(
         related="reclamation_id.objet", string="Objet de la Réclamation", store=True
     )
@@ -358,10 +373,9 @@ class PV(models.Model):
         comodel_name="gestion_de_reclamation.projet_commercial",
         string="Projet Commercial",
         required=True,
-        ondelete="cascade",
     )
     date_pv = fields.Date(
-        string="Date du Procès-Verbal",
+        string="Date du PV",
         default=fields.Date.context_today,
         required=True,
     )
@@ -373,7 +387,39 @@ class PV(models.Model):
         string="Contenu du PV",
         required=True,
     )
+    signatures = fields.One2many(
+        comodel_name="gestion_de_reclamation.signature",
+        string="Signatures",
+        inverse_name="pv_id",
+    )
+    @api.model
+    def create(self, vals):
+        # Créer d'abord le PV
+        pv = super(PV, self).create(vals)
+        
+        # Récupérer l'équipe désignée liée à la réclamation du projet commercial
+        reclamation = pv.projet_commercial_id.reclamation_id
+        equipe_designation = reclamation.equipe_designation_id
 
+        # Ajouter automatiquement les membres de l'équipe à la liste des signatures
+        if equipe_designation:
+            signatures = []
+            for membre in equipe_designation.membres_ids:
+                signatures.append((0, 0, {
+                    'user_id': membre.id,
+                    'signature': False  # Signature non cochée au départ
+                }))
+            pv.write({'signatures': signatures})
+        
+        return pv
+    
+    def action_imprimer_pv(self):
+        non_signes = self.signatures.filtered(lambda s: not s.signature)
+        if non_signes:
+            raise UserError("Tous les membres de l'équipe doivent signer avant d'imprimer le PV.")
+        return self.env.ref('gestion_de_reclamation.action_report_pv').report_action(self)
+
+    _sql_constraints = [('unique_projet_commercial', 'unique(projet_commercial_id)', 'Un projet commercial ne peut avoir qu\'un seul procès-verbal.')]
 
 
 # ------------------------------ Déplacement ------------------------------
@@ -409,3 +455,26 @@ class Deplacement(models.Model):
 
     
 
+# ------------------------------ Signature -----------------------------
+class Signature(models.Model):
+    _name = "gestion_de_reclamation.signature"
+    _description = "Signature des membres de l'équipe pour le PV"
+
+    # Champs
+    user_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Utilisateur",
+        required=True,
+        help="Sélectionnez l'utilisateur qui doit signer.",
+    )
+    signature = fields.Boolean(
+        string="Signé",
+        default=False,
+    )
+    pv_id = fields.Many2one(
+        comodel_name="gestion_de_reclamation.pv",
+        string="Procès-Verbal",
+        ondelete="cascade",
+    )
+
+    

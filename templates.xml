@@ -65,4 +65,71 @@
             </t>
         </t>
     </template>
+
+
+    <template id="report_pv">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page" style="font-family: Poppins, sans-serif; margin: 10px; text-align: left;">
+                    
+                    <!-- En-tête -->
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h2 style="color: green; border-bottom: 2px solid green; padding-bottom: 20px;">
+                            Procès Verbal de La Réclamation
+                        </h2>
+                    </div>
+                    
+                    <!-- Informations du PV -->
+                    <div style="padding-left: 20px;">
+                        <h3 style="font-style: italic; color: rgb(223, 85, 50); margin-bottom: 10px;">
+                            Détails du Procès Verbal :
+                        </h3>
+                        <p style="text-indent: 10px;"><strong>Date du PV :</strong> <t t-esc="o.date_pv" /></p>
+                        <p style="text-indent: 10px;"><strong>Objet :</strong> <t t-esc="o.objet" /></p>
+                        <p style="text-indent: 10px;"><strong>Contenu :</strong></p>
+                        <p style="text-indent: 20px;"> <t t-esc="o.contenu" /></p>
+                    </div>
+
+                    <!-- Séparation -->
+                    <div style="margin: 50px "></div>
+
+                    <!-- Signatures des Membres de l'équipe -->
+                    <div style="padding-left: 20px; margin-top: 20px;">
+                        <h3 style="font-style: italic; color: rgb(223, 85, 50); margin-bottom: 10px;">
+                            Membres de l'équipe ayant signé :
+                        </h3>
+                        <table class="table table-bordered" style="width: 100%; border-collapse: collapse; border: 2px solid black;">
+                            <thead>
+                                <tr style="background-color: green; color: white;">
+                                    <th style="padding: 8px; text-align: left;">Nom de l'Utilisateur</th>
+                                    <th style="padding: 8px; text-align: left;">Signature</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.signatures" t-as="signature">
+                                    <tr>
+                                        <td style="padding: 8px;"><span t-esc="signature.user_id.name" /></td>
+                                        <td style="padding: 8px;">
+                                            <span t-if="signature.signature">Oui</span>
+                                            <span t-else="signature.signature">Non</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pied de page -->
+                    <div style="margin-top: 50px; text-align: center;">
+                        <p style="font-size: 14px; color: #555;">
+                            Ce document a été généré automatiquement par le système de gestion des réclamations.
+                        </p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+
+
 </odoo>

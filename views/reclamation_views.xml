@@ -21,11 +21,11 @@
                     </group>
                     <group string="Réclamation">
                         <field name="date_creation"/>
-                        <field name="type_reclamation" groups='Project_PGI.group_manager'/>
-                        <field name="urgente" groups='Project_PGI.group_manager'/>
+                        <field name="type_reclamation" groups='gestion_de_reclamation.group_manager'/>
+                        <field name="urgente" groups='gestion_de_reclamation.group_manager'/>
                         <field name="etat"/>
-                        <field name="equipe_designation_id" placeholder="Sélectionner une equipe" groups='Project_PGI.group_manager'/>
-                        <field name="agent_id" placeholder="Sélectionner un agent clientele" groups = 'Project_PGI.group_agent_clientele' />
+                        <field name="equipe_designation_id" placeholder="Sélectionner une equipe" groups='gestion_de_reclamation.group_manager'/>
+                        <field name="agent_id" placeholder="Sélectionner un agent clientele" groups = 'gestion_de_reclamation.group_agent_clientele' />
                         <field name="agence_id" readonly="1"/>
                     </group>
                 </group>

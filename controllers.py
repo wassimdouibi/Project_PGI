@@ -7,7 +7,7 @@ class ReclamationController(http.Controller):
     @http.route('/reclamation/form', auth='public', website=True)
     def reclamation_form(self, **kw):
         print("Reclamation form route hit!")
-        return request.render('Project_PGI.reclamation_form', {})
+        return request.render('gestion_de_reclamation.reclamation_form', {})
 
 
     @http.route('/website/submit_reclamation', type='http', auth="public", methods=['POST'], csrf=False)
@@ -65,15 +65,11 @@ class ReclamationController(http.Controller):
         })
         
         
-        
-            # Handle the file upload
-       
-
-            # Link attachments to the reclamation
-        
         if reclamation:
+            reclamation.print_accuse_reception()
+
             # Redirect to a success page or show a success message
-            return request.render('Project_PGI.success_page')
+            return request.render('gestion_de_reclamation.success_page')
         else:
             # Handle the case where the reclamation creation failed
-            return request.render('Project_PGI.error_page', {'error_message': 'Failed to create the reclamation.'})
+            return request.render('gestion_de_reclamation.error_page', {'error_message': 'Failed to create the reclamation.'})

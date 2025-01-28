@@ -316,6 +316,10 @@
                         <group string="Général">
                             <field name="reclamation_id" string="La Réclamation"/>
                             <field name="date_creation" string="Date de Création du Projet"/>
+                            <field name="reclamation_objet" string="Objet de la Réclamation"/>
+                            <field name="reclamation_description" string="Description de la Réclamation"/>
+                            <field name="reclamation_urgente" string="Urgente"/>
+                            <field name="reclamation_etat" string="État"/>
                         </group>
                         <group string="Procès-Verbal">
                             <field name="pv_id"/>
@@ -389,6 +393,10 @@
                         <group string="Général">
                             <field name="reclamation_id" string="La Réclamation"/>
                             <field name="date_creation" string="Date de Création du Projet"/>
+                            <field name="reclamation_objet" string="Objet de la Réclamation"/>
+                            <field name="reclamation_description" string="Description de la Réclamation"/>
+                            <field name="reclamation_urgente" string="Urgente"/>
+                            <field name="reclamation_etat" string="État"/>
                         </group>
                         <group string="Caractéristiques">
                             <field name="complexite"/>
@@ -843,5 +851,3 @@
 
 
 </odoo>
-        
-

@@ -63,13 +63,7 @@ class ReclamationController(http.Controller):
             'description': description,
             'attachment_ids': attachment_ids
         })
-        
-        
         if reclamation:
-            reclamation.print_accuse_reception()
-
-            # Redirect to a success page or show a success message
             return request.render('gestion_de_reclamation.success_page')
         else:
-            # Handle the case where the reclamation creation failed
             return request.render('gestion_de_reclamation.error_page', {'error_message': 'Failed to create the reclamation.'})

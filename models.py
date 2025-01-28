@@ -107,6 +107,9 @@ class Reclamation(models.Model):
         
         self.write({'etat': 'archive', 'active': False})
 
+    def update_etat(self, etat):
+        self.write({'etat': etat})
+
         
 
 
@@ -299,9 +302,10 @@ class ProjetCommercial(models.Model):
         related="reclamation_id.urgente", string="Réclamation Urgente", store=True
     )
     reclamation_etat = fields.Selection(
-        related="reclamation_id.etat", string="État de la Réclamation", store=True
-    )
-            
+    [("nouveau", "Nouveau"), ("en_cours", "En Cours"), ("resolu", "Résolu")],
+        string="État",
+        default="nouveau"
+    ) 
     def action_imprimer_pv(self):
         # Vérifier si un PV est lié au projet commercial
         if self.pv_id:
@@ -310,6 +314,29 @@ class ProjetCommercial(models.Model):
         else:
             raise UserError("Aucun procès-verbal associé à ce projet commercial.")
     _sql_constraints = [('unique_reclamation_id', 'unique(reclamation_id)', 'Un projet commercial ne peut etre associe qu\'a une seule reclamation.')]
+
+    @api.onchange('reclamation_etat')
+    def _onchange_reclamation_etat(self):
+        """Update the state of the linked reclamation when this field changes."""
+        if self.reclamation_id:
+            self.reclamation_id.etat = self.reclamation_etat
+
+    @api.model
+    def create(self, vals):
+        """Ensure the state of the related reclamation is updated on creation."""
+        project = super(ProjetCommercial, self).create(vals)
+        if project.reclamation_id and 'reclamation_etat' in vals:
+            project.reclamation_id.etat = vals['reclamation_etat']
+        return project
+
+    def write(self, vals):
+        """Ensure the state of the related reclamation is updated on write."""
+        res = super(ProjetCommercial, self).write(vals)
+        if 'reclamation_etat' in vals:
+            for project in self:
+                if project.reclamation_id:
+                    project.reclamation_id.etat = vals['reclamation_etat']
+        return res
 
 
 # ------------------------------ Projet Technique ------------------------------
@@ -364,9 +391,34 @@ class ProjetTechnique(models.Model):
         related="reclamation_id.urgente", string="Réclamation Urgente", store=True
     )
     reclamation_etat = fields.Selection(
-        related="reclamation_id.etat", string="État de la Réclamation", store=True
+        [("nouveau", "Nouveau"), ("en_cours", "En Cours"), ("resolu", "Résolu")],
+        string="État",
+        default="nouveau"
     )
 
+    @api.onchange('reclamation_etat')
+    def _onchange_reclamation_etat(self):
+        """Update the etat of the linked reclamation when this field changes."""
+        if self.reclamation_id:
+            self.reclamation_id.etat = self.reclamation_etat
+
+    @api.model
+    def create(self, vals):
+        """Ensure the state of the related reclamation is updated on creation."""
+        project = super(ProjetTechnique, self).create(vals)
+        if project.reclamation_id and 'reclamation_etat' in vals:
+            project.reclamation_id.etat = vals['reclamation_etat']
+        return project
+
+    def write(self, vals):
+        """Ensure the state of the related reclamation is updated on write."""
+        res = super(ProjetTechnique, self).write(vals)
+        if 'reclamation_etat' in vals:
+            for project in self:
+                if project.reclamation_id:
+                    project.reclamation_id.etat = vals['reclamation_etat']
+        return res
+            
     
 # ------------------------------ Procès Verbal ------------------------------
 class PV(models.Model):

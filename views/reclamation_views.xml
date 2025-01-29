@@ -47,6 +47,35 @@
     </field>
     </record>
 
+    <!-- Graph View for Reclamation -->
+    <record id="view_reclamation_graph" model="ir.ui.view">
+        <field name="name">reclamation.graph</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
+        <field name="arch" type="xml">
+           <graph string="Réclamations" sample="1">
+               <field name="type_reclamation" type="mesure"/>
+               <!--  <field name="etat" type="mesure"/> -->
+               <field name="date_creation" type="row"/>
+                 <field name="agent_id" type="measure"/>
+                 <field name="equipe_designation_id" type="measure"/>
+
+                 <field name="reclamant_id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Another Graph View for Urgency Distribution -->
+    <record id="view_reclamation_graph_urgency" model="ir.ui.view">
+        <field name="name">reclamation.graph.urgency</field>
+        <field name="model">gestion_de_reclamation.reclamation</field>
+        <field name="arch" type="xml">
+            <graph string="Réclamations par Urgence" type="pie">
+               <!-- <field name="urgente" type="row"/>
+                <field name="id" type="measure" aggregation="count"/> -->
+            </graph>
+        </field>
+    </record>
+
 
 
     <record model="ir.ui.view" id="reclamation_search_view">
@@ -63,7 +92,7 @@
     <record model="ir.actions.act_window" id="reclamation_list_action">
         <field name="name">reclamations</field>
         <field name="res_model">gestion_de_reclamation.reclamation</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,graph</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Créer la première réclamation
@@ -842,12 +871,12 @@
         />
 
   
-    <menuitem id="menu_dashboard"
+   <!-- <menuitem id="menu_dashboard"
                 name="Dashboard"
                 parent="main_reclamation_plateforme_menu" 
                 action="action_dashboard"
                 groups="gestion_de_reclamation.group_manager" 
-            />
+            /> -->
 
 
 </odoo>

@@ -1,6 +1,5 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_reclamation_user,Reclamation User Access,model_gestion_de_reclamation_reclamation,base.group_user,1,1,1,1
-access_reclamation_user,Reclamation User Access,model_gestion_de_reclamation_reclamation,group_employee,1,1,0,1
 access_equipe_designation_user,Equipe Designation User Access,model_gestion_de_reclamation_equipe_designation,base.group_user,1,1,1,1
 access_agent_clientele_user,Agent Clientele User Access,model_gestion_de_reclamation_agent_clientele,base.group_user,1,1,1,1
 access_appel,Appel Access,model_gestion_de_reclamation_appel,base.group_user,1,1,1,1
@@ -9,5 +8,6 @@ access_projet_commercial_user,Projet Commercial User Access,model_gestion_de_rec
 access_projet_technique_user,Projet Technique User Access,model_gestion_de_reclamation_projet_technique,base.group_user,1,1,1,1
 access_pv_user,PV User Access,model_gestion_de_reclamation_pv,base.group_user,1,1,1,1
 access_deplacement_user,Deplacement User Access,model_gestion_de_reclamation_deplacement,base.group_user,1,1,1,1
-access_reclamation_archive_user,access_reclamation_archive,model_gestion_de_reclamation_reclamation_archive,base.group_user,1,0,0,1
+access_reclamation_archive_user,access_reclamation_archive,model_gestion_de_reclamation_reclamation_archive,base.group_user,1,1,1,1
 access_signature,Access Signature,model_gestion_de_reclamation_signature,base.group_user,1,1,1,1
+

@@ -132,88 +132,95 @@
 
 
 
-
     <template id="reclamation_form" name="Reclamation Form">
-    <form action="/website/submit_reclamation" method="POST">
-        <div class="row">
-            <!-- Reclamant Information -->
-            <div class="col-12 col-md-6">
-                <label for="reclamant_name">Nom</label>
-                <input type="text" id="reclamant_name" name="reclamant_name" placeholder="votre nom" required="true"/>
-            </div> 
+        <form action="/website/submit_reclamation" method="POST" style="padding: 20px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+            <h2 style="text-align: center; font-weight: bold; color: #2c3e50; margin-bottom: 30px;">Formulaire de Réclamation</h2>
+            <div class="row" style="gap: 20px;">
+                <!-- Reclamant Information -->
+                <div class="col-12 col-md-6" style="margin-bottom: 20px;">
+                    <label for="reclamant_name" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Nom</label>
+                    <input type="text" id="reclamant_name" name="reclamant_name" placeholder="Votre nom" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;" />
+                </div> 
 
-            <div class="col-12 col-md-6">
-                <label for="reclamant_prenom">Prenom</label>
-                <input type="text" id="reclamant_prenom" name="reclamant_prenom" placeholder="votre prenom" required="true"/>
-            </div> 
+                <div class="col-12 col-md-6" style="margin-bottom: 20px;">
+                    <label for="reclamant_prenom" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Prenom</label>
+                    <input type="text" id="reclamant_prenom" name="reclamant_prenom" placeholder="Votre prénom" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;" />
+                </div> 
 
-            <div class="col-12 col-md-6">
-                <label for="reclamant_email">Email</label>
-                <input type="email" id="reclamant_email" name="reclamant_email" placeholder="Enter your email" required="true"/>
+                <div class="col-12 col-md-6" style="margin-bottom: 20px;">
+                    <label for="reclamant_email" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Email</label>
+                    <input type="email" id="reclamant_email" name="reclamant_email" placeholder="Votre email" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;" />
+                </div>
+
+                <div class="col-12 col-md-6" style="margin-bottom: 20px;">
+                    <label for="reclamant_phone" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Numéro de Téléphone</label>
+                    <input type="text" id="reclamant_phone" name="reclamant_phone" placeholder="Votre numéro de téléphone" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;" />
+                </div>
+
+                <div class="col-12 col-md-6" style="margin-bottom: 20px;">
+                    <label for="reclamant_adresse" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Adresse</label>
+                    <input type="text" id="reclamant_adresse" name="reclamant_adresse" placeholder="Votre adresse" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;" />
+                </div> 
+
+                <div class="col-12 col-md-6" style="margin-bottom: 20px;">
+                    <label for="reclamant_commune" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Commune</label>
+                    <input type="text" id="reclamant_commune" name="reclamant_commune" placeholder="Votre commune" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;" />
+                </div> 
+
+                <div class="col-12 col-md-6" style="margin-bottom: 20px;">
+                    <label for="reclamant_origine" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Type Réclamant</label>
+                    <select id="reclamant_origine" name="reclamant_origine" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;">
+                        <option value="citoyen">Citoyen</option>
+                        <option value="entreprise">Entreprise</option> 
+                        <option value="cellule_veille">Cellule Veille</option>
+                    </select>
+                </div> 
+
+                <!-- Reclamation Details -->
+                <div class="col-12" style="margin-bottom: 20px;">
+                    <label for="objet" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Sujet</label>
+                    <input type="text" id="objet" name="objet" placeholder="Sujet de la réclamation" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;" />
+                </div>
+
+                <div class="col-12" style="margin-bottom: 20px;">
+                    <label for="description" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Description</label>
+                    <textarea id="description" name="description" placeholder="Détaillez votre réclamation ici" required="true" style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px;"></textarea>
+                </div>
+
+                <div class="col-12" style="margin-bottom: 20px;">
+                    <label for="file_attachments" style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">Joindre des fichiers</label>
+                    <input type="file" name="file_attachments" id="file_attachments" class="form-control" style="padding: 5px; border: 1px solid #ced4da; border-radius: 5px;" />
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" style="background-color: #2980b9; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px;">Soumettre Réclamation</button>
+                </div>
+
+                <div class="col-12" style="text-align: center; margin-top: 20px; color: #7f8c8d;">
+                    Merci de votre réclamation. Nous ferons de notre mieux pour vous répondre dans les plus brefs délais.
+                </div>
             </div>
+        </form>
+    </template>
 
-            <div class="col-12 col-md-6">
-                <label for="reclamant_phone">Phone Number</label>
-                <input type="text" id="reclamant_phone" name="reclamant_phone" placeholder="Enter your phone number" required="true"/>
-            </div>
 
-            <div class="col-12 col-md-6">
-                <label for="reclamant_adresse">Adresse</label>
-                <input type="text" id="reclamant_adresse" name="reclamant_adresse" placeholder="votre adresse" required="true"/>
-            </div> 
-
-            <div class="col-12 col-md-6">
-                <label for="reclamant_commune">Commune</label>
-                <input type="text" id="reclamant_commune" name="reclamant_commune" placeholder="votre Commune" required="true"/>
-            </div> 
-
-            <div class="col-12 col-md-6">
-                <label for="reclamant_origine">Type Reclamant</label>
-                <select id="reclamant_origine" name="reclamant_origine" required="true">
-                    <option value="citoyen">citoyen</option>
-                    <option value="entreprise">entreprise</option> 
-                    <option value="cellule_veille">cellule veille</option>
-                </select>
-            </div> 
-
-            <div class="col-12 col-md-6">
-                <label for="reclamant_resSociale">Raison Sociale</label>
-                <input type="text" id="reclamant_resSociale" name="reclamant_resSociale" placeholder="votre raison Sociale" />
-            </div> 
-
-           
-            <!-- Reclamation Details -->
-            <div class="col-12">
-                <label for="objet">Sujet</label>
-                <input type="text" id="objet" name="objet" placeholder="Enter the subject of your reclamation" required="true"/>
-            </div>
-
-            <div class="col-12">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" placeholder="Describe your reclamation in detail" required="true"></textarea>
-            </div>
-
-        
-
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Soumettre Reclamation</button>
-            </div>
+    <template id="success_page" name="Page de Succès">
+        <div class="alert alert-success" 
+            style="margin: 40px auto; padding: 30px; border-radius: 10px; background-color: #eaf7ea; 
+                    border: 2px solid #a6d8a6; color: #2d6a2d; max-width: 600px; text-align: center;">
+            <h4 style="font-size: 28px; font-weight: bold; margin-bottom: 15px;">
+                Réclamation soumise avec succès !
+            </h4>
+            <p style="font-size: 18px; margin-bottom: 20px; line-height: 1.5;">
+                Merci d'avoir soumis votre réclamation. Notre équipe l'a bien reçue et elle sera examinée prochainement.
+                Vous serez contacté sous peu.
+            </p>
+            <p style="font-size: 16px; color: #6c757d;">
+                Pour toute assistance urgente, veuillez contacter notre service support.
+            </p>
         </div>
+    </template>
 
-        <div class="col-12">
-         <label for="file_attachments">Attach Files</label>
-        <input type="file" name="file_attachments" id="file_attachments" class="form-control"  />
-    </div>
-    </form>
-</template>
-
-
-<template id="success_page" name="Success Page">
-    <div class="alert alert-success">
-        <h4>Reclamation Submitted Successfully!</h4>
-        <p>Your reclamation has been submitted. You will be contacted soon.</p>
-    </div>
-</template>
 
 
 </odoo>

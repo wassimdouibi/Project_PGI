@@ -41,7 +41,8 @@
         <tree string="Reclamation Tree" >
             <field name="objet"/>
             <field name="date_creation"/>
-            <field name="etat"/>
+            <field name="type_reclamation" widget="badge" decoration-primary="type_reclamation == 'technique'" decoration-warning="type_reclamation == 'commerciale'"/>
+            <field name="etat" widget="badge" decoration-primary="etat == 'nouveau'" decoration-warning="etat == 'en_cours'" decoration-success="etat == 'resolu'" decoration-danger="etat == 'archive'"/>
             <field name="agent_id"/>
         </tree>
     </field>
